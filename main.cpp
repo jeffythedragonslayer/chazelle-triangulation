@@ -89,6 +89,37 @@ void lemma31()
  * Then we can find a point of A1 (not necessarily a vertex of 6C that sees A2 in time O(f(y2)g(y2)(h(y2) + log y2)) */
 void lemma32()
 {
+	/* To begin, observe that A1 and A2 are arcs or subarcs of either S1 or S2 but cannot overlay both 6C1 and 6C2.
+ * The reason is that all chord endpoints in S1 and S2 are still chord endpoints in S (perhaps with different chords) and that we added chords incident upon the vertices of 6C resulting from the duplication of the vertex C1 n C2.
+ * Therefore, because of the bounded number of arcs per region, it is still possible to do local shooting within any region of S.
+ * Since y1 <= y2 and f is nondecreasing this takes O(f(y2)) time.  Thus, we can efficiently check, in time
+ * O(f(y2)), whether a given vertex of A1, qualifies as the point v sought.  (Again, we must be careful that local shooting reports edges of P and does not tell us if the point hit is on the desired arc or is the companion of a point of the arc.  We already discussed how local checking can decide which way it is in constant time,
+ * so we will not make further mention of that minor difficulty.)  Of course, we should not check all the vertices of A1 because there might just be too many of them.
+ * Instead, we need to do some kind of binary search among the vertices of A1.
+ * For that purpose we invoke the arc-cutter associated with the arc of S1 or S2 containing A1, which allows us to subdivide A1 into at most g(y1) subarcs, with l=1 if A1 6C1 and l=2 if A1 6C2.  Except for at most two-single edge subarcs attached to the endpoints of A1 (which we ignore), for each subarc a we have a normal-form h(yi)-granular conformal submap Sa of V(abar).  We search each subarc in turn, stopping as soon as we find a good vertex or point, if ever.
+ * Since the normal-form representation of Sa provides us with the tree decomposition T of the submap,
+ * we are able to check the candidacy of a in its entirety in O(f(y2)(h(y2)+log(y2)) time, provided that the following test can be performed in O(f(y2)) time: given a chord ab of Sa, either determine that a or b is a point of a and sees A2 with respect to C, or find some i{1,2} such that a n ai is empty or has no point that sees A2, where a1 and a2 denote the two pieces of 6abar between a and b.  Note that 6abar is a superset of a with twice the number of vertices (not fewer because the arc-cutter oracle guarantees that a does not double-back around an endpoint).  First we show how such a test can be used to check the candidacy of a.  Then we explain how to implement the test and why it covers all possible cases.
+ * We begin by applying this test with respect to the chord correspondding to the root of the tree T
+ * (corresponding to the hierarchical decomposition of Sa).  Then, as claimed, either we terminate with a positive answer or else we identify one of a1 or a2, say a1, such that a n a1 is empty or has no point that sees A2.
+ * In that case, we find the child of the root that corresponds to a2 and we iterate on this process from that node.
+ * This leads us to termination at some iternal node of T or perhaps takes us to the bottom of the tree.
+ * Note that determining which node to branch to at each step is trivial once we have identified the ai to be rejected.
+ * (So, we can perform the test just as stated above without having to "resize" a to reflect the current status of the ever-shrinking set of candidates).
+ * If we reach a leaf, we examine each vertex of the region associated with it and, among those belonging to a, we check whether any of them can see A2.  Since there are only O(h(y2)) vertices in the region and the depth of the tree is O(log y2) the running time of the algorithm is O(f(y2)(h(y2)+logy2)), as claimed.  Again we use the fact that y1 <= y2 and that h is nondecreasing.
+ * Whenever we discover a successful candidate point, the search can obviously be stopped right there.
+ * What remains to be seen is why upon reaching a leaf the corresponding region is the only one which can still provvide the desired answer.
+ * Let us assume that the search ends up at a leaf.  At the very beginning, let us say that each point of 6abar is a candidate.  Every time we branch down the tree we limit the candidacy to those points, of 6abar in the regions of Sa associated with the leaves of the subtree which we entere.  At the end, the remaining candidates are the vertices in the region associated with the leaf where the tree search ends.  This proves the correctness of the procedure.  So, to summarise, if the basic test stated earlier can be performed in O(f(y2)) time, then we can solve the entire problem in O(f(y2)g(y2)(h(y2)+logy2)) time, which proves the lemma.
+ * We now show how to perform the test and why it is sound, i.e. covers all cases.
+ * Removing 6abar from the spherical plane leaves two open regions, each polygonal and homeomorphic to a disk.
+ * One of them is infinitesimally small; let D be the closure of the other one.
+ * It is important that D should be homeomorphic to a closed disk and not to a 2-sphere, so the interior of abar, and,
+ * more generally, of C, should be understood as being very small but nonempty.  Let c and d be the endpoints of a\on 6abar.  Removing c and d from 6C leaves a and a curve A, both lying in D, so we have set the stage for Lemma 2.4.
+ * Figure 3.4 illustrates the correspondance: the snake on the left represents C; the disk D corresponds to the outside of the portion of the snake between c and d, while it is the inside of the circle on the right.
+ * The curve A runs along the snake clockwise from d to c; note that it runs on the boundary of D part of the way.
+ * The subarc a runs clockwise from c to d and corresponds to B1 U B2.  Figure 3.4 shows the case where only one endpoint of ab lies in B1 U B2, which corresponds to Figure 2.8.2.  The reader will easily draw an example matching the case of Figure 2.8.1, where both a and b lie in a = B1 U B2.
+ * To compute a' and b' (if defined) can be done by local shooting in the region of S incident upon A1 and A2,
+ * which takes O(f(y2)) time.  Note that no shooting is needed for a or b if the point in question does not lie in a.
+ * If ever a (resp. b) is a point of a and a' (resp. b') belongs to A2, then obivously we are done and successful in our search, so we can assume that neither conjunction holds.  But, in that case, A2, lies entirely within one of the connected components of the curve A after it has been cut up by removing a' and b' (whichever exists).  Therefore, by Lemma 2.4, A2 must be shielded from some Bi, which means that it cannot be connected to Bj without crossing ab or A.  Futhermore, we know that Bj can be identified in constant time.  The kuey observation now is that Bj coincides precisely with one of a n a1 or a n a2, say, the first one.  It follows that no point of a n a1 can see A2, and the test is completed. */
 }
 
 /* Let A1,...,Ak be the clockwise circular sequence of arcs around a region of S.  If k > 4, then there exist i, j, such that
