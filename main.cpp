@@ -146,7 +146,13 @@ void lemma34()
 
 /* Maintaining Granularity
  *
- * Since by making S conformal we did not remove any exit chord, it is still the case that, as observed in the proof of Lemma 3.2, no arc has more than y2 edges.
+ * Let C1 and C2 be two polygonal curves of n1 and n2 vertices, respectively, whose union forms a connected vertex-to-vertex piece of the input
+ * (simple and nonclode) polygonal curve P.  Suppose that we are given a normal-form yi-granular conformal submap of each V(Ci), where y1 <= y2,
+ * along with the ray-shooting and arc-cutting oracles necessary for merging.  Then, for any y >= y2, it is possible to compute a normal-form y-granular conformal submap of V(C)
+ * in time O((n1/y1 + n2/y2 + 1)f(y2)g(y2)(h(y2) + log(n1+n2))). */
+void lemma35()
+{
+ /* Since by making S conformal we did not remove any exit chord, it is still the case that, as observed in the proof of Lemma 3.2, no arc has more than y2 edges.
  * Therefore, S is conformal and y2-semigranular.  We must now check whether the second citerion for y2-granularity holds.  This criterion says that contracting any edge of the submap
  * tree that is incident upon at least one node of degree less than 3 produces a new node whose weight exceeds y2.  This is very easy to enforce: if an edge does not pass the test,
  * we just contract it by removing its corresponding exit chord (and those endpoints that are not vertices of 6C).  Note that this will not cause a violation of the first criterion,
@@ -154,14 +160,7 @@ void lemma34()
  * Chords need be processed only once since the removals cannot make any chord removable if it was not already so before.  Therefore, y2-granularity, and more generally y-granularity,
  * for any y >= y2, can be enforced in this nondetermininistic fashion in time linear in the size of the submap tree, that is, O(n1/y1 + n2/y2 + 1).  We can now put S in normal form,
  * which includes computing its tree decomposition.  As we discussed earlier, this can be done very simply in time O((n1/y1 + n2/y2 + 1)log(n1+n2)).  With the inconsequential assumption that
- * yi = O(n1+n2), we derive the following result from Lemmas 3.1 and 3.4:
- *
- * Let C1 and C2 be two polygonal curves of n1 and n2 vertices, respectively, whose union forms a connected vertex-to-vertex piece of the input
- * (simple and nonclode) polygonal curve P.  Suppose that we are given a normal-form yi-granular conformal submap of each V(Ci), where y1 <= y2,
- * along with the ray-shooting and arc-cutting oracles necessary for merging.  Then, for any y >= y2, it is possible to compute a normal-form y-granular conformal submap of V(C)
- * in time O((n1/y1 + n2/y2 + 1)f(y2)g(y2)(h(y2) + log(n1+n2))). */
-void lemma35()
-{
+ * yi = O(n1+n2), we derive the following result from Lemmas 3.1 and 3.4 */
 }
 
 /* Let C be a connectexd vertex-to-vertex piece of the input polygonal curve P and let m be its number of vertices.
@@ -169,6 +168,78 @@ void lemma35()
  * Then it is possible to preprocess S in O(m(log m)/y+1) time so that ray-shooting within S can be done in time O(y^(1/3)m^(2/3)). */
 void lemma36()
 {
+	/* Of the two oracles defined earlier, the ray-shooter is the more challenging to implement,
+ * the reason being that it addresses the key issue in the triangulation business,
+ * which is the discovery of new chords.  The arc-cutter is implemented by using the divide-and-conquer
+ * structure of the up-phase of the visibility algorithm.
+ * Since a better understanding of the up-phase is necessary to understand how that oracle works,
+ * we postpone the discussion of its implementation a little.  Turning our attention to the ray-shooting oracle,
+ * it might apppear at first that fast planar point location should be the answer.  But traditional methods, e.g,
+ * [9] and [19], are inadequate for several reasons, the most crucial of which is their inability support merging
+ * in sublinear time.  We turn this problem around by exploiting futher the approximation scheme provided by the concept of granularity.
+ * Let C be a connected vertex-to-vertex piece of the input polygonal curve P and let m its number of vertices.
+ * Let S be a normal-form y-granular conformal submap of V(C).  So far, we have focused mostly on the tree structure of S.
+ * But let us now regard S as a planar graph.  For this purpose, we must temporarilty forget the fact that C has been given a double boundary.  We define S* to be the planar subdivision obtained by taking S and making every vertex
+ * (vertices of 6C and chord endpoints) a vertex on both sides of the double boundary, whose thickness is now null.
+ * As a result, the edges of S* might be smaller than those of S but, unlike in S, no edge of S* is of zero length
+ * (zero-length edges are now "contracted" into vertices).  More important, each face of S* coincides exactly
+ * with a distinct region of S, except for the fact that it might have many more vertices incident upon it.
+ * Indeed, a region's only vertices are the endpoints of its own exit chords along with some vertices of 6C,
+ * whereas the vertices of a face include all of the above plus all the chord endpoints that abut on the corresponding region from the outside.
+ * Notice that since the notion of double boundary is lost, a face might have dangling edges or edges incident upon it on both sides.  There are several examples of this in Fig. 3.6, which shows the subdivision S* corresponding to the submap of Fig. 2.6.  Note also that the correspondence face/region is not surjective because empty regions have no associated faces.  Besides being planar, the graph S* has two remarkable properties:
+ *
+ * (i) From Lemma 2.3 we know that it has O(m/y+1) faces, which is much smaller than the number of vertices (when y is large).
+ * (ii) Although a given face might be very complex (i.e., incident upon many edges) its number of noncollinear edges is small, i.e., O(y).
+ *
+ * These two features allow us to implement an efficient ray-shooting oracle.
+ *
+ * Let G be the dual graph of S*, that is, the graph obtained by associatting a distinct node with each face of S*
+ * and connecting two nodes if and only if they are distict and their corresponding faces share a common edge.
+ * It is a classical result of graph theory that G is planar.  How hard is it to compute G, say, in the form of
+ * adjacency lists?  Two faces are adjacent if and only if either they share a chord or one of them has a chord
+ * endpoint that abuts on a nonnull length arc of the region assoicated with the other face.
+ * The first type of adjacencies can be detected immediately from S.  The latter can be done by double identification,
+ * as discussed in Section 2.4, followed by sorting along C, which takes O(ulogm) time, where u=O(m/y+1) is
+ * the number of nodes in G.  It can also be done faster by merging chord endpoints along both sides of 6C.
+ * If u=1, then ray-shooting can be done trivially in O(m) time, so let us assume that u > 1.
+ * We show that after O(nlogm) preprocessing we can do ray-shooting in O(yu^2/3) time.
+ * The planarity of G works wonders for us.  The first payoff is that the number of edges is at most 3u-6.
+ * The second reward is that we can apply the linear time algorithm of Lipton and Tarjan [21] to find a good separator.
+ * This partitions the nodes of G into three subsets A, B, D, such that
+ *
+ * (i) no edge joins a node of A with a node of B,
+ * (ii) neither A nor B contains more than 2u/3 nodes, and
+ * (iii) D contains at most sqrt(8u) nodes.
+ *
+ * Let Ga (resp. Gb) be the graph obtained by keeping only the nodes of A (resp. B) and the edges of G that join only nodes of A (resp. B).
+ * We repreat the procedure over with respect to each of Ga and Gb and iterate in this fashion until none of the graphs have more than u^sigma nodes, for smoe fixed sigma (9 < sigma < 1).  Let D* be the set of all separators,
+ * i.e., the union of all the D's.  We easily verify that |D*| = O(u^sigma), provided that sigma is chosen large enough;
+ * for example sigma = 2/3 [22].  In (ulogu) time we can compute D* and partition the remaining nodes into subsets D1, D2, etc., each of size at most u^2/3, such that no path of G can join two nodes in distinct subsets without passing through a node of D*.
+ * What is the utility of D* for ray-shooting?  Take a vertical line passing to the right of all the vertices of P,
+ * and intersect it with the chords of the regions in S.
+ * This breaks up the line into segments, every one of which falls entirely within some region; to split up the line and identify the regions cut by each segment can be done by traversing G and checking each chord for intersection with a vertical line.  Since the regions cut correspond to nodes of G lying on a path, sorting the intersections comes for free, and all the work can be done in O(u) time.
+ * We now claim that ray-shooting toward 6C from any point can be done in O(yu^2/3) time.
+ * Our first task is to shoot within each region that is dual to a node of D* using a naive algorithm which involves checking all the O(y) edges of the region (and not the edges of the face, which might be much more numerous).
+ * Assume that the ray of light hits a point among the edges of the regions dual to the nodes of D*.
+ * Let R be the last region of S traversed before the first hit.
+ * To identify R can be done by double identification, followed by checking the local orientation of the hit.
+ * If R is a region dual to a node v of D*, then the starting point of the ray lies in R
+ * (otherwise an earlier hit would have been detected) and we are trivially done.
+ * So, assume now that R is dual to a node v not in D*.  Incidentally, note that double identification needed to find R might require a binary search among a large collection of collinear edges.
+ * Let R' be the region incident upon the (region) edge containing the point of 6C actually hit by the ray-shooting:
+ * this is the region that we are looking for (Fig. 3.7).  If R and R' are not the same then the two regions can be connected by a horizontal line segment that avoids all the regions dual to D*.
+ * It follows that the node w associated with R' can be reached by a path in G from v that avoids D*.
+ * Consequently, v and w both lie in the same Di.
+ * We can find w, and, from there, answer the ray-shooting query, by first finding Di,
+ * which takes constant time since we know R, and then naievly checking all the regions dual to nodes in Di,
+ * which takes O(yu^2/3) time.
+ * Returning to our ealier case analysis, assume now that the ray of light hits no region dual to a node in D*.
+ * Then the ray-shooting takes place entirely within the regions dual to the nodes of a single Di.
+ * To find out which one, we shoot toward the vertical line and find which segment of the line is hit.
+ * This takes O(log u) time by binary search.
+ * We can now identify the region R immediately.  The remainder of the algorithm is unchanged.
+ * We conclude that ray-shooting can be done in O(m) time if u = 1, and O(yu^2/3{ time if u>1,
+ * after O(ulogm) preprocessing.  Since u=O(m/y+1), we have */
 }
 
 /* Suppose that all grades less than lambda have been processed.  Then, given any portion D of P of the form va,...,vb, where 2^l-1 < b - a <= 2^l, we can compute
@@ -235,6 +306,54 @@ void uphase41()
  * then it is possible to compute V(C) in time at most (c-1/l)2^l, where c is some constant large enough. */
 void lemma42()
 {
+	/* We proceed by induction on lambda.  Let S be the 2^[B*lambda]-granular conformal submap of V(C).
+ * The case where lambda is a constant is trivial since the regions of S have bounded size, and therefore the missing chords can be provided in constant time per region.  So, let us switch directly to the inductive case,
+ * assuming that lambda is large enough.  Let R be a region of S.
+ * Because of conformality, the union of all the arcs of R can be partitioned into a constant number of single edges and vertex-to-vertex pieces of 6C with at most 2^[B*lambda] edges.  Applying Lemma 4.1, we can compute a canonical submap for each connected polygonal piece in the partition in time at most proportional to
+ *
+ * lambda^2(log lambda)2^(B*lambda(1-B/3+4*B^2/3{
+ *
+ * Each of these submaps has granularity at most 2^[B[Blambda]], so we can pursue the merging by putting
+ * together all these submaps and thus create a single normal form 2^[B[B*lambda]]-granular conformal submap of V(R*),
+ * where R* is the boundary of R minus a veretx (to ensure that it is nonclosed).
+ * For consistency, we should regard R* as a standrad polygonal curve and not as part of a double boundary.
+ * The operation requires a constant number of merges, so we can carry it out effectively by merging submaps
+ * two-by-two like in Lemma 4.1.
+ *
+ * There is a small subtlety in this last round of merges, which we should explain.
+ * To take a simple, suppose that R* has two arcs and two exit chords: a1,
+ * a1b1, a2, a2b2, in cyclic order.  It could be that the endpoints of a1 or a2 are not vertices of 6C,
+ * so to deal with the most general case, assume that a1 consists of b2b'2, B1, a'1,a1 and a2 consists of b1b'1, B2, a'2b2, where a1',b'1,a'2,b'2 are all vertices of 6C (Fig 4.1).  Let S1 (resp. S2) be the canonical submap for the vertex-to-vertex piece of P corresponding to B1 (resp. B2) and let T1 (resp. T2) be canonical submaps for the 3-edge polygonal curve a'1, a1, b1, b'1 (resp. a'2,a2,b2,b'2).  We obtain S1 and S2 by application of Lemma 4.1, while T1 and T2 are computed directly (tilting the edges a1b1 and a2b2 symbolically to keep the merging algorithm from complaining later.)
+ * We are now ready to merge S1 with T1, then merge the resulting submap with S2, and finally merge the result with T2.
+ * Note that we treat the edges a1b1 and a2b2 as part of the input curve although they are not part of P.
+ * As a result, ceasing (temporarily) to be chords, these edges cannot be removed during the merges.
+ * Since we add at most a constant number of new edges to the input curve, all the oracle machinery needed
+ * for the merges is still available, i.e., the new edges create only constant-time multiplicative overhead.
+ * Although the final submap is conformal it might no longer be so if we now reinterpret a1b1 and a2b2 as chords,
+ * which we do once the last round of merges is completed.  To remedy this we apply the conformality-restoring
+ * procedure of Section 3.2 to each region that might have more than four chords with this new interpretation.
+ * Again, it is immediate to see that all the required oracles are still available.
+ * The time taken by this last round of merges is dominated by the cost of the earlier merges,
+ * so computing the 2^[B[Blambda]]-granular conformal submap of all the V(R*)'s takes time at most proportional to
+ *
+ * 2^i*lambda^2(log lambda)*2^B^2lambda(4B/3-1/3)
+ *
+ * We can now extract the relevant information, i.e., the exit chords falling entirely within each region R.
+ * This involves checking the exit chords of the computed submap of V(R*) and keeeping only those both of whose endpoints lie on the arcs (in the double boundary sense) of the region R.  This leads to a new map S* of V(C) which is a refinement of S: all its arcs originate from the previous merges, therefore S* is a 2^[B[Blambda]]-semigranular conformal submap of V(C).  We can only speak of semigranularity because some of the chords connecting the R*'s might be removable now.  We can check each of the exit chords directly, which as we saw in Section 3.3, takes a total amount of time linear in the number of exit chords in S*.
+ * Now that we have a 2^[B[B*lambda]]-granular conformal submap of V(C) at our disposal we observe that [Blambda] <= lambda - 1 for lambda large enough, so that we can apply the induction hypothesis and derive V(C) in
+ * time at most (c-1/(lamdda-1))2^l.  Putting everything together, the total running time for the construction of V(C) is at most
+ *
+ * a2^l*lamda^2(log lambda)*2^(B^2*lambda*(4B/3-1/3) + (c-1/(lambda-1))*2^l
+ *
+ * for some constant a > 0.  With the setting B = 1/5, this is no more than
+ *
+ * a*2^l*lambda^2(log lambda)*2^[-lambda/375] + (c-1/(lambda-1)*2^l <= (c-1/lambda)*2^l
+ *
+ * for lambda large enough.
+ *
+ * During the up-phase we built a normal-form 2^[Bp]-granular conformal submap of V(P) in linear.
+ * By Lemma 4.2, therefore, V(P) can be obtained also in linear time.  As demonstrated in [6] and [11],
+ * a triangulation can be easily derived from the visibility map in linear time, so our main goal has been reached. */
 }
 
 /* It is possble to compute the visibility map of a simple polygonal curve, and, hence, a triangulation of a simple polygon, in linear time */
