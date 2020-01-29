@@ -171,6 +171,7 @@ void lemma34()
  * (simple and nonclode) polygonal curve P.  Suppose that we are given a normal-form yi-granular conformal submap of each V(Ci), where y1 <= y2,
  * along with the ray-shooting and arc-cutting oracles necessary for merging.  Then, for any y >= y2, it is possible to compute a normal-form y-granular conformal submap of V(C)
  * in time O((n1/y1 + n2/y2 + 1)f(y2)g(y2)(h(y2) + log(n1+n2))). */
+
 void lemma35()
 {
  /* Since by making S conformal we did not remove any exit chord, it is still the case that, as observed in the proof of Lemma 3.2, no arc has more than y2 edges.
@@ -380,6 +381,62 @@ void lemma42()
 /* It is possble to compute the visibility map of a simple polygonal curve, and, hence, a triangulation of a simple polygon, in linear time */
 void theorem43()
 {
+}
+
+void startup()
+{
+/* Using local shooting, we find the point of 6C1 that a0 sees with respect to C1.
+ * Although a0 is at worst infinitesimally close to 6C2 it does not always lie on it, as we shall see in the next paragraph.
+ * However, using the information about the endpoints of C2 encoded in the normal-form representation of S2 (namely, pointers to incident arcs),
+ * we can find, in constant time, in which regions of S2 the point a0 lies.  This allows us to do local shooting and find the point of 6C2 that a0 sees with respect to C2.
+ * These two pieces of information combine to give us the unique point c0 of 6C that a0 sees with respect to C.  We distinguish between two cases:
+ *
+ * 1. If c0 belongs to 6C2, then we set p = a0 and we call the region of S2 crossed by a0c0 current: the start-up phase is over (Figure 3.1.1).
+ * 2. If c0 belongs to 6C1, from Lemma 2.1, the chord a0c0 splits 6C into two curves, each closed under visibility.  One of these curves, the one running from a0 to c0 clockwise,
+ * is a piece of 6C1.  (Fig. 3.1.2), so the points of 6C that its exit chord endpoints see all belong to 6C1, and thus are available directly from S1.
+ * We can therefore skip all the way to c0.  Now, however, c0 sees a point of 6C2, namely a0, so we set p = c0 and call the region of S2 containing a0 current.
+ *
+ * Technically, it is not quite true that a0 is always a point of 6C2.  It coincides with one most often, but when it sits at a local extremum (in the y-direction) it is not one because of duplication.
+ * What is true, however, is that when c0 cannot see a point of 6C2, an infinitesimal deformation of 6C2 locally around a0 can make c0 see one.
+ * This is a minor technicality which will not affect the remainder of the fusion algorithm, so for simplicity we still go on saying that c0 sees a point of 6C2 with respect to C.
+ * Another minor problem is that a0c0 might lie on an exit chord of S2 and thus there might be more than one candidate for the status of current region.
+ * We break ties by electing the region that we locally enter as we leave p in a clockwise traversal of 6C1.  This concludes the start-up-phase.
+ * At this point we have the following situation (all visibility being understood with respect to C):
+ *
+ * A. The points of 6C that are seen by the exit chord endpoints of S1 on the portion of 6C1 running clockwise from a0 to the point p in its current position have all been determined already.
+ * B. The point q of 6C that is seen by p belongs to 6C2 and the chord pq lies in the region of S2 called current.  If p lies on a chord between two regions of S2,
+ * then the current region should be the one that we enter as we locally leave p clockwise around 6C1.
+ * These two conditions form our loop invariant, that is, they hold prior to veery iteration of the process which we now describe. */
+}
+
+void main_loop()
+{
+	/* Let Ai denote the oriented arc of S1 running from ai-1 to ai (in clockwise order around 6C1): by extension A1 (resp. Am+1) stands for the subarc extending from a0 to a1 (resp. am to am+1).
+ * Let Ak be the arc containing p.  In the likely event that p is an endpoint of a chord of S1 and thus belongs to two arcs, we must choose the one starting (and not ending) at p, i.e., we set the condition
+ * p != ak.  When p is set to am+1, however, the algorithm simply terminates and no Ak need be defined.  Let R denote the current region prior to enterting the following loop:
+ * iterate through j = k, k+1,... until
+ *
+ * (i) aj lies in R and the point of 6C that aj sees belongs to 6C2 (Figure 3.2.1), or
+ * (ii) the previous conditiion (i) does not hold, but R has at least one exit chord such that the point of 6C seen by one of its endpoints belongs to Aj, but strictly follows p (Fig. 3.2.2), or
+ * (iii) j = m+2
+ *
+ * If case (i) occurs, find which point of 6C is seen by aj, declare that all aj's (k<=i<j) see points of 6C1 (with respect to C), set p = aj, let the current region still be R,
+ * and iterate through the loop, resetting k so as to comply with its definition.  If case (ii) occurs, then all of the candidate endpoints, i.e, those chord endpoints satisfying (ii),
+ * determine the one which sees the point p' that is the last one encountered as we traverse 6C1 clockwise starting from p.  In Fig. 3.2.2, for example, p' is the point labeled p3 and the chose endpoint is labled q3.
+ * Next, declare that all aj's (k <= i < j) see points 6C1, set p = p', make current the region of S2 which we enter as we locally cross the exit chord at p' along 6C1, and iterate after updating k and R according to their defintiions.
+ * In case (iii) we stop and, unless k = m+2, we declare that all ai's (k <= i < m+1) see points of 6C1.  We have made several claims and skipped over important implementation issues in order to get the main idea of the algorithm across.  Next, we fill in the missing parts and substantiate our claims. */
+}
+
+void restore_conformality()
+{
+	/* As we said earlier, there is no reason to believe that the fusion of S should be confromal.  Things can never be too bad, however.  Indeed, let A1, A2,... be the arcs of a region R of S in counterclockwise order.
+ * It is clear that each Ai belongs to 6C1 or 6C2 but not both.  So, we partition the sequence of arcs into runs, B1, B2,...,meaning that Bj = Ai,Ai+1,...,Aij+1-1 is a maximal subsequence of arcs from either 6C1 or 6C2 (but not both).  In the defintion of maximal, we regard A1, A2, ... as a circular sequence.  Because any exit chord endpoint of Si is still an endpoint of a chord in S and, with the possible exception of the chords incident upon a0 or am+1, every chord of S that connects two points of 6Ci is also a chord of Si, it follows by conformality that a run associated with 6Ci cannot have more than four exit chords in its midst,
+ * not counting the new chords incident upon a0 or am+1.  Therefore, a run cannot have more than a constant number of arcs.  On the other hand, it follows from Lemma 2.2 that there are at most two runs.
+ * Why is that so?  The lemma says that if we walk along 6C clockwise we will in effect traverse, among other things, the boundary of R counterclockwise (except for the exit chords).
+ * If we begin our walk at one of the two points of 6C corresponding to the vertex C1 n C2, we first exhaust, say 6C1 and the 6C2.  Therefore, the counterclockwise traversal of the boundary of R must exhaust first the runs Bi contributed by S1 and then the runs contributed by S2.  Obviously, this leaves only the possibilty of having at most one run of each type, and hence at total of at most two runs.
+ * The conclusion to draw is that, although not necessarily confromal, the submap S has no region with more than a bounded number of arcs.  If S is not confromal we must now reduce the number of arcs per region
+ * to four or less by adding new chords into S.  To discover these chords we need the ability to check whether two arcs or subarcs of the same region can "see" each other (Lemma 3.2).
+ * We also need to show that the desired chords do exist (Lemma 3.3). */
 }
 
 int main(int argc, char* argv[])
