@@ -1,17 +1,38 @@
 /* If we remove a pair of mutually visible points from the double boundary of a simple polygonal curve, then no chord can connect the two resulting pieces. */
 void lemma21()
 {
+	/* Let C1 and C2 be the two pieces of the double boundary resulting from the removal of a pair of visible points.
+ * Together with C1 and C2, the chord c connecting the two points subdivides the spherical plane into three polygonal regions
+ * (i.e., regions bounded by simple polygonal curves), one of which is the infinitesimally thin polygon C itself.
+ * Any chord connecting C1 and C2 lies outside the "polygon" C, so it must cross c.  But this is impossible because chords are horizontal. */
 }
 
 /* Let A1,...,Ak be the counter clockwise enumeration of the (oriented) arcs of a nonempty submap region (as induced from the region's orientation).
  * Then each Ai is oriented clockwise with respect to 6C.  Moreover, the sequence A1,..,Ak also occurs clockwise around 6C. */
 void lemma22()
 {
+	/* The curve 6C is homeomorphic to a circle embedded in the spherical plane.
+ * Adding a chord is topologically equivalent to connecting two points on the circle by simple curve lying entirely on one side of the circle.
+ * The requirement that all these curves should be mutually disjoint induces a parenthesis system which immediately reveals the tree structure of the dual graph.
+ * This is similar to teh parenthesis system in Jordan sorting [18].  As an example, Figure 2.5 depicts the topological equivalent of the submap of Fig. 2.4.
+ * From this perspective, the lemma should be completely obvious. */
 }
 
 /* If C is a polygonal curve with n vertices, any y-granular conformal submap of the (possibly augmented) visibility map of C has O(n/y + 1) regions and each region is bounded by O(y) edges. */
 void lemma23()
 {
+	/* We can assume that the tree of the submap has at least one edge, otherwise the lemma is trivial because of the y-granularity.
+ * Among the edges of that tree, let E be the set of those incident upon at least one node of degree less than 3.
+ * It is trivial to show by induction on the size of the tree that E accounts for at least a fixed fraction of all the edges.
+ * Now, contracting any edge in E, or equivalently, removing a chord associated with E produces a merged region of weight greater than y,
+ * meaning that it has an arc with more than y edges of nonzero length.
+ * Since a vertex of C can give rise to at most four vertices of 6C, and removed chords do not leave extra vertices behind except those of 6C,
+ * such an arc must involve at least omega(y) distinct vertices of C.  If contracting any edge of E were always to produce a disjoint merged region,
+ * then it would follow from the pigeon-hole principle that E, and hence the whole tree, has O(n/y+1) edges.
+ * Unfortunately, two edges of E might produce overlapping merged regions (i.e, if they share a common node).
+ * From the conformality of the submap, however, we know that a given vertex of C can be used at most a constant number of times in this counting argument,
+ * therefore E has indeed O(n/y+1) edges and the first part of the lemma is established.  The second part derives from the conformality of the submap,
+ * which ensures that there is bounded number of arcs per region and, hence, that the total number of bounding edges is at most proportional to the weight of the region. */
 }
 
 /* If a B1 u B2 (resp. b B1 u B2), let a' (resp. b') be the first (resp. last) point of ab n A encountered when traversing the diametrical chord ab from a to b.
@@ -133,15 +154,15 @@ void lemma33()
 }
 
 
+/*
+ * The submap S can be made conformal in time
+ * O((n1/y1 + n2/y2 + 1)f(y2)g(y2)h(y2) + log y2). */
+void lemma34()
+{
 /* Equipped with the two previous lemmas, making S conformal is now quite easy.  Recall that although S might not be conformal right after fusion, none of its regions has more than a bounded number of arcs.
  * For any region with more than four arcs, let us apply lemma 3.2 to every pair of nonconsecutive arcs until we find a chord which we can add to S.  We iterate on this process until no region has more than four arcs.
  * Note that although S keeps changing, Lemma 3.2 always holds since region arcs can only become smaller.  Lemma 3.3 tells us that this chord addition process will not stop until S becomes conformal.
- * Since the total number of arcs in S is O(n1/y1 + n2/y2 + 1), we conclude:
- *
- * The submap S can be made conformal in time
- * O((n1/y1 + n2/y2 + 1)f(y2)g(y2)h(y2) + log y2)). */
-void lemma34()
-{
+ * Since the total number of arcs in S is O(n1/y1 + n2/y2 + 1), we conclude: */
 }
 
 /* Maintaining Granularity
