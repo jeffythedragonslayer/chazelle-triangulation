@@ -2,6 +2,59 @@
 
 typedef unsigned uint;
 
+struct Submap
+{
+	/* How do we represent visibility maps and submaps as data structures?+  We first describe our mode of representation, then we point out some of its idiosyncracies and explain why they are needed.
+	 * Let P be the input polygonal curve (the one whose visibility map is sought) and let C be the subchain of P whose visibility map (or submap) we wish to represent.
+	 * We assume that P is nonclodes, this is not restrictive since a little hole can always be punctured if it is closed to begin with.
+	 * We assume that the edges of P are stored in a table (the input table) in the order in which they occur along the boundary of P.
+	 * (A doubly linked list would also do.)
+	 * Note that the notion of double boundary need not be encoded explicitly, i.e., no edges are duplicated in the table.
+	 * The input table is read-only: it is never to be modified or even copied.  A visibility submap of V(C) is represented by its own data structure:
+	 * arcs are encoded by pointing directly into the input table.
+	 * More precisely, each arc is represented by a separate arc-structure.
+	 * Null-length arcs can be represented explicitly so let us assume that the arc has nonzero length.
+	 * Let e1, ..., et be the edges of an arc in clockwise order along the double boundary, where e1 and et are the edges adjacent to the two chords connected by the arc.
+	 * If t=1, then the arc-structure consists of a single pointer into the input table to the edge e of P that contains e1.
+	 * Since e1 is an edge of the double boundary, we also need to indicate by a flog which side of e is to be understood.
+	 * We do not need to record the endpoints of the arc because chords take care of that.
+	 * If t > 1, we store the same information as above but now with respect to both e1 and et in that order.
+	 * We say that a submap (or map) is given in normal form if the following informaiton is provided:
+	 * (i) The tree of the submap (or map) is represented in standard edge/node adjacency fashion.
+	 * (ii) Each edge contains a record describing the corresponding chord as well as pointers to the arc-structures
+	 * 	of the two, three, or four arcs adjacent to it.  Conversely, each arc-structure has a pointer to the node of the tree whose corresponding region is incident upon the arc in question.
+	 * (iii) The arc-structures are stored in a table (the arc-sequence table) in the order corresponding to a canonical traversal of the double boundary 6C.
+	 * 	Also, the endpoints of C are identified by appropriate pointers int the input table as well as by pointers to the arc-structures whose corresponding arcs pass through the endpoints.
+	 * (iv) If the submap is conformal, then its tree decomposition should be avilable. 
+	 *
+	 * We choose what may seem to be contrived representation of a submap in order to use storage proportional not to the number of edges in the submap but rather to the number of regions
+	 * (which is of the same order of magnitude as the number of chords and arcs).
+	 * It is essential to avoid duplication of information because we need to encode a collection of submaps whose number of distinct features is only O(n),
+	 * but whose combined size, counting redundancc, is big theta(n log n).
+	 * Note that our representation is powerful enough to let us perform canonical vertex/region enumerations in optimal time.
+	 * If we wish to, we can also enumerate all the vertices of 6C in clockwise order directly from a canonical vertex enumeration of the submap, since any arc can be reconstructed explicitly from the succinct
+	 * information given by the arc-structure: it sufficies to explore the input table between the locations indicated by the two pointers of the arc-structure.
+	 * Note that caution must be used since an arc might wrap around both sides of 6C, something we call double-backing.
+	 * This can be detected when we traverse the arc as soon as we reach an edge of P incident upon an endpoint of C.
+	 * Perhaps a less obvious task is to retrieve the arc-structure corresponding to an arc, given one of its edges.  More specifically, suppose that we are given an edge e of C and a point q on it.
+	 * The question is to find the arc-structures of all those arcs in the submap that pass through the point q.
+	 * By passing through, we do not care whether the arc is on any particular side of the double boundary, so, for example, if q is not an endpoint of any chord in the submap,
+	 * then there are most two distinct arcs to be found.
+	 * Otherwise, there are at most six of them., two of which are of zero length: this worst case occurs when q coincides with a vertex of C that is a local extremum in the y-direction.
+	 * Since we know the location of the two endpoints of C in the arc-sequence table
+	 * (i.e, which arcs pass through them) we can conceptually break up the circular arc sequence into two linear sequences and perform in each of the a binary search,
+	 * using the name of the containing edge e as a query.
+	 * Either search might take us to a unique arc-structure, in which case we are done, or else to a contiguou interval of arc-structures: this might happen if e contributes several arcs.
+	 * We can disambiguate by purusing the binary search, now using, say, the y-coordinate of q as a query.  The total running time is logarithmic in the number of arcs.
+	 * This operation is very useful later when we want to navigate in a submap across its arcs: we call it the double identification of a point of C.
+	 * We have said repeatedly that a submap has a tree structure.  Now let us change our perspective for a moment and look at a submap as a standard planar subdivision, without distinguishing between chords and arc edges.
+	 * There are many standard representations of planar graphs [2], [15], [23] which allow us to navigate through a subdivision along the edges in constant time per step taken.
+	 * Normal-form representations are not quite that powerful.  One problem arises if we attempt to cross from one side of an arc to the otehr along, say, a straight line.
+	 * In order to find which region we are about to enter we must perform a double identification.  The difficultly here is that unlike what is commonly done in standard graph representations we do not keep adjacency information
+	 * between regions and edges (except for chords).  More important yet, we do not provide an explicit correspondance between the features on the two sides of an edge of C.
+	 * For reasons which will become clear later, it would be a very bad idea to try to do so.  */
+};
+
 /* If we remove a pair of mutually visible points from the double boundary of a simple polygonal curve, then no chord can connect the two resulting pieces. */
 void lemma21()
 {
@@ -373,6 +426,7 @@ void lemma41()
 	 * Since the initial cost of restting the granularity is only O(2^(lambda(1-B)), the lemma follows readily. */
 }
 
+// log n stages
 void uphase41()
 {
 	/* We begin with a piece of terminology, given a curve C consisting of m contigous edges of P, we say that a submap of V(C) is cannoncial if it is 2^[B[logm]]-granular,
