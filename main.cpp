@@ -154,7 +154,8 @@ void lemma32()
 	 * Except for at most two-single edge subarcs attached to the endpoints of A1 (which we ignore), for each subarc a we have a normal-form h(yi)-granular conformal submap Sa of V(abar).
 	 * We search each subarc in turn, stopping as soon as we find a good vertex or point, if ever.
 	 * Since the normal-form representation of Sa provides us with the tree decomposition T of the submap,
-	 * we are able to check the candidacy of a in its entirety in O(f(y2)(h(y2)+log(y2)) time, provided that the following test can be performed in O(f(y2)) time: given a chord ab of Sa, either determine that a or b is a point of a and sees A2 with respect to C, or find some i{1,2} such that a n ai is empty or has no point that sees A2, where a1 and a2 denote the two pieces of 6abar between a and b.
+	 * we are able to check the candidacy of a in its entirety in O(f(y2)(h(y2)+log(y2)) time, provided that the following test can be performed in O(f(y2)) time: given a chord ab of Sa,
+	 * either determine that a or b is a point of a and sees A2 with respect to C, or find some i{1,2} such that a n ai is empty or has no point that sees A2, where a1 and a2 denote the two pieces of 6abar between a and b.
 	 * Note that 6abar is a superset of a with twice the number of vertices (not fewer because the arc-cutter oracle guarantees that a does not double-back around an endpoint).
 	 * First we show how such a test can be used to check the candidacy of a.  Then we explain how to implement the test and why it covers all possible cases.
 	 * We begin by applying this test with respect to the chord correspondding to the root of the tree T
@@ -562,6 +563,25 @@ void merge_submaps()
 	 * but to the number of chords in them.  We cannot archive this, but we can find functions f, g, h which, although nonconstant, are small enough for our purposes.
 	 * Specifically, we have f(x) = O(x^0.74), g(x) = O(log x{, and h(x) = O(x^0.20).  This allows us to carry out a merge in time almost proportional to the total number of chords.
 	 * Note that to archive f(x) = g(x) = x is trivial but, for our purposes, completely useless. */
+}
+
+void visibility_algorithm()
+{
+	/* Let P be a simple nonclosed polygonal curve with n vertices v1, ..., vn.
+	 * By padding the curve with additional vertices, if necessary, we can assume that n = 2^p + 1.
+	 * Any subcurve of P of the form va, ..., vb, where a-1 is a multiple of 2^lambda and b-a=2^lambda is called a chain in grade lambda.  Obviously,
+	 *
+	 * (i) a grade-lambda chain has 2^lambda+1 vertices,
+	 * (ii) there are 2^(p-lambda) chains in grade lambda, and
+	 * (iii) there are p+1 grades: 0,1, ..., p.
+	 *
+	 * We begin our work bottom-up, computing conformal submaps of granularity of roughly m^B,
+	 * where m is the size of the underlying curve and B is some small enough positive constant;
+	 * we set B=1/5, but to make the complexity analysis more explicit we leave B as a parameter in most of the calculations.
+	 * We pursue the computation until the submap for the whole polygon has been obtained, which completes the up-phase.
+	 * Then we reverse the process and work top-down until the submap has been completely refined into its full-fledged visibility map.
+	 * The down-phase does not work by calling the visibility algorithm recursively on the regions of the top subamp,
+	 * but rather it uses data structures left behind during the top-phase (the submaps for the chains and their ray-shooting structures) to speed up the refinement process. */
 }
 
 int main(int argc, char* argv[])
