@@ -492,19 +492,26 @@ void main_loop()
 	/* Let Ai denote the oriented arc of S1 running from ai-1 to ai (in clockwise order around 6C1): by extension A1 (resp. Am+1) stands for the subarc extending from a0 to a1 (resp. am to am+1).
 	 * Let Ak be the arc containing p.  In the likely event that p is an endpoint of a chord of S1 and thus belongs to two arcs, we must choose the one starting (and not ending) at p, i.e., we set the condition
 	 * p != ak.  When p is set to am+1, however, the algorithm simply terminates and no Ak need be defined.  Let R denote the current region prior to enterting the following loop:
-	 * iterate through j = k, k+1,... until
-	 *
-	 * (i) aj lies in R and the point of 6C that aj sees belongs to 6C2 (Figure 3.2.1), or
-	 * (ii) the previous conditiion (i) does not hold, but R has at least one exit chord such that the point of 6C seen by one of its endpoints belongs to Aj, but strictly follows p (Fig. 3.2.2), or
-	 * (iii) j = m+2
-	 *
-	 * If case (i) occurs, find which point of 6C is seen by aj, declare that all aj's (k<=i<j) see points of 6C1 (with respect to C), set p = aj, let the current region still be R,
-	 * and iterate through the loop, resetting k so as to comply with its definition.  If case (ii) occurs, then all of the candidate endpoints, i.e, those chord endpoints satisfying (ii),
-	 * determine the one which sees the point p' that is the last one encountered as we traverse 6C1 clockwise starting from p.  In Fig. 3.2.2, for example, p' is the point labeled p3 and the chose endpoint is labled q3.
-	 * Next, declare that all aj's (k <= i < j) see points 6C1, set p = p', make current the region of S2 which we enter as we locally cross the exit chord at p' along 6C1,
-	 * and iterate after updating k and R according to their defintiions.
-	 * In case (iii) we stop and, unless k = m+2, we declare that all ai's (k <= i < m+1) see points of 6C1.
-	 * We have made several claims and skipped over important implementation issues in order to get the main idea of the algorithm across.  Next, we fill in the missing parts and substantiate our claims. */
+	 * iterate through j = k, k+1,... until one of these three cases occurs: */
+
+	uint k = 0;
+
+	uint j = k;
+	for( ;; ){
+		 /* case:
+		 * (i) aj lies in R and the point of 6C that aj sees belongs to 6C2 (Figure 3.2.1), or
+		 * (ii) the previous conditiion (i) does not hold, but R has at least one exit chord such that the point of 6C seen by one of its endpoints belongs to Aj, but strictly follows p (Fig. 3.2.2), or
+		 * (iii) j = m+2 */
+
+		 /* If case (i) occurs, find which point of 6C is seen by aj, declare that all aj's (k<=i<j) see points of 6C1 (with respect to C), set p = aj, let the current region still be R,
+		 * and iterate through the loop, resetting k so as to comply with its definition.  If case (ii) occurs, then all of the candidate endpoints, i.e, those chord endpoints satisfying (ii),
+		 * determine the one which sees the point p' that is the last one encountered as we traverse 6C1 clockwise starting from p.  In Fig. 3.2.2, for example, p' is the point labeled p3 and the chose endpoint is labled q3.
+		 * Next, declare that all aj's (k <= i < j) see points 6C1, set p = p', make current the region of S2 which we enter as we locally cross the exit chord at p' along 6C1,
+		 * and iterate after updating k and R according to their defintiions.
+		 * In case (iii) we stop and, unless k = m+2, we declare that all ai's (k <= i < m+1) see points of 6C1.*/
+	}
+
+	 /* We have made several claims and skipped over important implementation issues in order to get the main idea of the algorithm across.  Next, we fill in the missing parts and substantiate our claims. */
 }
 
 void restore_conformality()
