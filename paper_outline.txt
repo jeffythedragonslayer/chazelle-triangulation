@@ -1,0 +1,36 @@
+Triangulating a Simple Polygon in Linear Time
+
+Bernard Chazelle
+
+1. Introduction
+2. Visibility Maps and Submaps
+	2.1 The Visibility Map
+		Lemma 2.1
+	2.2 Visibility Submaps
+		Lemma 2.2
+	2.3 Conformality and Granularity
+		Lemma 2.3
+	2.4 Representation Issues
+	2.5 A Topological Lemma
+		Lemma 2.4
+3. Merging Two Submaps
+	3.1 Fusion of Two Submaps
+		Start-Up
+		Main Loop
+		Lemma 3.1
+	3.2 Restoring Conformality
+		Lemma 3.2
+		Lemma 3.3
+		Lemma 3.4
+	3.3 Maintaining Granularity
+		Lemma 3.5
+	3.4 Implementing the Oracles
+		Lemma 3.6
+4. The Visibility Algorithm
+	4.1 The Up-Phase
+		Lemma 4.1
+	4.2 The Down-Phase
+		Lemma 4.2
+	Theorem 4.3
+
+5. Some Applications and Open Problems

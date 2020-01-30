@@ -335,8 +335,12 @@ void lemma41()
 	 * This implies that, for each i = 1, ..., j a canonical submap S of V(Di) is available.  Let y be the granularity of a canonical submap of V(D); we have y = 2^(Bl)
 	 * Since the granularity of canonical submap grows monotonically with the size of the underlying polygonal curve, we can trivially reset the granularity of each Si to y (Section 3.3).
 	 * The time to do that is proportional to the total number of chords in all the Si's which, from Lemma 2.3, is on the order of E0<=k<=lambda^2^[Bk], that is, O(2^lambda(1-B)).
+	 *
 	 * Let us now merge these submaps two-by-two (D1 with D2, D3 with D4, etc.).  More generally, we consider a perfectly balanced binary tree whose leaves are in the bijection with Di's and we merge submaps bottom-up
-	 * by following the tree pattern.  Application of Lemma 3.5 results in a canonical submap of V(D) provided, of course, that the required oracles are available.  But are they?
+	 * by following the tree pattern.  */
+
+	lemma35();
+	/* Application of Lemma 3.5 results in a canonical submap of V(D) provided, of course, that the required oracles are available.  But are they?
 	 * Notice that during any merge any arc a in either of the two input submaps consists of at most y edges.  Therefore, any subarc a' <= a can be subdivided into a constant number of contiguous pieces
 	 * (with no double-backing) whose corresponding portions of P consist of a single line segments (at most two of them) and vertex-to-vertex pieces of P, each with at most 2^[Bk] edges.
 	 * Each of these pieces can be partitioned into a collection of O(lambda) chains in grades at most [Blambda].  Our work at previous grades ensures that we have ray-shooting structures for the canonical submaps
@@ -404,8 +408,10 @@ void lemma42()
 	 * The case where lambda is a constant is trivial since the regions of S have bounded size, and therefore the missing chords can be provided in constant time per region.  So, let us switch directly to the inductive case,
 	 * assuming that lambda is large enough.  Let R be a region of S.
 	 * Because of conformality, the union of all the arcs of R can be partitioned into a constant number of single edges and vertex-to-vertex pieces of 6C with at most 2^[B*lambda] edges.
-	 * Applying Lemma 4.1, we can compute a canonical submap for each connected polygonal piece in the partition in time at most proportional to
-	 *
+	 * Applying Lemma 4.1, we can compute a canonical submap for each connected polygonal piece in the partition in time at most proportional to */
+
+	lemma41();
+	 /*
 	 * lambda^2(log lambda)2^(B*lambda(1-B/3+4*B^2/3{
 	 *
 	 * Each of these submaps has granularity at most 2^[B[Blambda]], so we can pursue the merging by putting
@@ -419,8 +425,11 @@ void lemma42()
 	 * To take a simple, suppose that R* has two arcs and two exit chords: a1,
 	 * a1b1, a2, a2b2, in cyclic order.  It could be that the endpoints of a1 or a2 are not vertices of 6C,
 	 * so to deal with the most general case, assume that a1 consists of b2b'2, B1, a'1,a1 and a2 consists of b1b'1, B2, a'2b2, where a1',b'1,a'2,b'2 are all vertices of 6C (Fig 4.1).
-	 * Let S1 (resp. S2) be the canonical submap for the vertex-to-vertex piece of P corresponding to B1 (resp. B2) and let T1 (resp. T2) be canonical submaps for the 3-edge polygonal curve a'1, a1, b1, b'1 (resp. a'2,a2,b2,b'2).
-	 * We obtain S1 and S2 by application of Lemma 4.1, while T1 and T2 are computed directly (tilting the edges a1b1 and a2b2 symbolically to keep the merging algorithm from complaining later.)
+	 * Let S1 (resp. S2) be the canonical submap for the vertex-to-vertex piece of P corresponding to B1 (resp. B2) and let T1 (resp. T2) be canonical submaps for the 3-edge polygonal curve a'1, a1, b1, b'1 (resp. a'2,a2,b2,b'2). */
+
+	lemma41();
+
+	 /* We obtain S1 and S2 by application of Lemma 4.1, while T1 and T2 are computed directly (tilting the edges a1b1 and a2b2 symbolically to keep the merging algorithm from complaining later.)
 	 * We are now ready to merge S1 with T1, then merge the resulting submap with S2, and finally merge the result with T2.
 	 * Note that we treat the edges a1b1 and a2b2 as part of the input curve although they are not part of P.
 	 * As a result, ceasing (temporarily) to be chords, these edges cannot be removed during the merges.
@@ -452,6 +461,7 @@ void lemma42()
 	 * for lambda large enough.
 	 *
 	 * During the up-phase we built a normal-form 2^[Bp]-granular conformal submap of V(P) in linear.
+	 *
 	 * By Lemma 4.2, therefore, V(P) can be obtained also in linear time.  As demonstrated in [6] and [11],
 	 * a triangulation can be easily derived from the visibility map in linear time, so our main goal has been reached. */
 }
@@ -518,6 +528,7 @@ void restore_conformality()
 {
 	/* As we said earlier, there is no reason to believe that the fusion of S should be confromal.  Things can never be too bad, however.  Indeed, let A1, A2,... be the arcs of a region R of S in counterclockwise order.
 	 * It is clear that each Ai belongs to 6C1 or 6C2 but not both.
+	 *
 	 * So, we partition the sequence of arcs into runs, B1, B2,...,meaning that Bj = Ai,Ai+1,...,Aij+1-1 is a maximal subsequence of arcs from either 6C1 or 6C2 (but not both).
 	 * In the defintion of maximal, we regard A1, A2, ... as a circular sequence.
 	 * Because any exit chord endpoint of Si is still an endpoint of a chord in S and, with the possible exception of the chords incident upon a0 or am+1, every chord of S that connects two points of 6Ci is also a chord of Si,
@@ -535,26 +546,33 @@ void restore_conformality()
 void merge_submaps()
 {
 	/* The inner loop of the visibility algorithm involves merging two confromal submaps.  Everything else in the algorithm is part of a control mechanism for deciding what gets to be merged with what,
-	 * at what time, and with what desired granularity.  Let C1 and C2 be two polygonal curves of n1 and n2 vertices respectively, whose union C forms a connected vertex-to-vertex piece of the input
+	 * at what time, and with what desired granularity.
+	 *
+	 * Let C1 and C2 be two polygonal curves of n1 and n2 vertices respectively, whose union C forms a connected vertex-to-vertex piece of the input
 	 * (simple and nonclosed) polygonal curve P; we assume that C1 n C2 is a vertex of P.  Let Si (i = 1,2) be a yi-granular confromal submap of V(Ci), with y1 <= y2.  Given any integer y >= y2,
 	 * to merge S1 and S2 (where y is understood) means to compute a normal-form y-granular conformal submap of V(C).
 	 * To facilitate the exposition we assume that we have at our dispoal two primitives: one is a ray-shooting oracle, which allows us to shoot a horizontal ray toward any subarc of S1 or S2 and discover which point,
 	 * if any, is first hit by the ray; this gives us a way to discover new chords.  The other primitive is an arc-cutting oracle, which enables us to cut up any subarc into a small number of pieces for which 
 	 * conformal submaps of the appropriate granularity have already been computed.  This is to be used for restoring the conformality of merged submaps.
-	 * The merge proceeds in three stages.  First we find which points of 6C can be seen by the endpoints of the exit chords of Si (i=1,2) and by the companion vertices resulting from the duplication of C1 n C2;
-	 * this gives us chords which we use to create a submap of S of V(C), called the fusion of S1 and S2 (Sectieon 3.1).  In the second stage we ensure that the submap is conformal, which might involve
-	 * adding new chords to cut up regions with more than four arcs.
+	 * The merge proceeds in three stages.
+	 *
+	 * First we find which points of 6C can be seen by the endpoints of the exit chords of Si (i=1,2) and by the companion vertices resulting from the duplication of C1 n C2;
+	 * this gives us chords which we use to create a submap of S of V(C), called the fusion of S1 and S2 (Sectieon 3.1).
+	 *
+	 * In the second stage we ensure that the submap is conformal, which might involve adding new chords to cut up regions with more than four arcs.
 	 * This is done by calling upon the arc-cutting oracle, which allows us to deal with subarcs for which conformal subamps and their tree decompositions are avilable.
 	 * Finding new chords to cut up big regions is carried out by binary search through the appropriate tree decompositions, using the ray-shooting oracles along the way (Section 3.2).
+	 * 
+	 *
 	 * In the third stage, finally, we bring the submap S to the desired granularity by removing chords if necessary (Section 3.3).  The implementation of the oracles is dicussed in Section 3.4.
 	 * We need to be able to distinguish between an arc of 6C and the piece of C from which it originates.  For this purpose we introduce the notation abar to refer to the portion of C to which an arc a of 6C corresponds.
 	 * Recall that an arc may double-back around an endpoint of C, so abar may not always be as "long" as a.  We assume that each Si is given in normal form and that the following set of primitives is avilable.
 	 * For each region arc a of Si (i = 1, 2) specified by a pointer to its arc-structure:
 	 * (i) There exists a ray-shooter which, given any point p along with a horizontal direction (left or right) and any subarc a' of a specified by its two endpoints
-	 * (along with two pointers to the input table to indicate the names of the edges of P that contain these two endpoints as well as two flags indicating which side of 6P is to be understood),
-	 * reports the single point of a' (if any) that a ray of light shot from p in the given direction would hit in the absence of any obstacle except a'.
-	 * In addition to the point hit, the report should also include the name of the edge of P that contains it.
-	 * The report should take O(f(yi)) time, where f is a nondecreasing function.
+	 * 	(along with two pointers to the input table to indicate the names of the edges of P that contain these two endpoints as well as two flags indicating which side of 6P is to be understood),
+	 * 	reports the single point of a' (if any) that a ray of light shot from p in the given direction would hit in the absence of any obstacle except a'.
+	 * 	In addition to the point hit, the report should also include the name of the edge of P that contains it.
+	 * 	The report should take O(f(yi)) time, where f is a nondecreasing function.
 	 * (ii) There exists an arc-cutter which, in O(g(yi)) time, subdivides the subarc a' into at most g(yi) subarcs a1, a2, ..., such that
 	 * 	(1) each aj is specified by its two endpoints and a pair of pointers into the input table to indicate which edges of P contain these endpoints;
 	 * 		the pair should be ordered to reflect a clockwise traversal along 6P and two flags should be included to indicate on which sides of 6P these endpoints fall;
