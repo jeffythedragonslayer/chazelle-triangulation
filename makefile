@@ -1,2 +1,4 @@
+BOOST=-I/usr/local/boost
+
 all:
-	g++ main.cpp -o main.exe
+	g++ $(BOOST) main.cpp -o main.exe

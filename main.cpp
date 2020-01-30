@@ -1,6 +1,25 @@
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/trim.hpp>
 #include <cmath>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <iostream>
+using namespace std;
+using namespace boost;
+
+struct Point
+{
+	uint x, y;
+};
+
+struct LineSegment
+{
+	Point a, b;
+};
 
 typedef unsigned uint;
+typedef vector<Point> polygon;
 
 struct Submap
 {
@@ -663,6 +682,45 @@ void visibility_algorithm()
 	 * but rather it uses data structures left behind during the top-phase (the submaps for the chains and their ray-shooting structures) to speed up the refinement process. */
 }
 
+bool verify_triangulation(vector<Point> const& polygon, vector<LineSegment> const& triangulation)
+{
+	if( triangulation.size() != polygon.size() - 3 ) return false;
+
+	// sweep line algorithm
+
+	return true;
+}
+
+struct FileNotFound{};
+
+vector<Point> load_polygon(string fname)
+{
+	ifstream in(fname);
+	if( !in ){
+		cerr << "file " << fname << " not found!\n";
+		throw FileNotFound();
+	}
+
+	vector<Point> points;
+
+	string str;
+	while( getline(in, str) ){
+		uint colon = str.find(",");
+                string strx  = str.substr(0, colon); trim(strx);                                                      
+                string stry  = str.substr(colon+1 ); trim(stry); 
+                int   x     = lexical_cast<int>(strx);
+                int   y     = lexical_cast<int>(stry);
+
+		Point p;
+		p.x = x;
+		p.y = y;
+		points.push_back(p);
+	}
+
+	return points;
+}
+
 int main(int argc, char* argv[])
 {
+	auto p = load_polygon("poly/square");
 }
