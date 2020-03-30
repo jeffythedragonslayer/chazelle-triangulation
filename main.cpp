@@ -94,10 +94,10 @@ void lemma22()
 	 * From this perspective, the lemma should be completely obvious. */
 }
 
-/* If C is a polygonal curve with n vertices, any y-granular conformal submap of the (possibly augmented) visibility map of C has O(n/y + 1) regions and each region is bounded by O(y) edges. */
+/* If C is a polygonal curve with n vertices, any γ-granular conformal submap of the (possibly augmented) visibility map of C has O(n/y + 1) regions and each region is bounded by O(y) edges. */
 void lemma23()
 {
-	/* We can assume that the tree of the submap has at least one edge, otherwise the lemma is trivial because of the y-granularity.
+	/* We can assume that the tree of the submap has at least one edge, otherwise the lemma is trivial because of the γ-granularity.
 	 * Among the edges of that tree, let E be the set of those incident upon at least one node of degree less than 3.
 	 * It is trivial to show by induction on the size of the tree that E accounts for at least a fixed fraction of all the edges.
 	 * Now, contracting any edge in E, or equivalently, removing a chord associated with E produces a merged region of weight greater than y,
@@ -127,7 +127,7 @@ void lemma24()
 }
 
 /* It is possible to compute the fusion S of S1 and S2 in
- * O((n1/y1 + n2/y2 + 1)(f(y2) + log(n1+n2)))
+ * O((n1/γ1 + n2/γ2 + 1)(f(γ2) + log(n1+n2)))
  * time */
 void lemma31()
 {
@@ -162,34 +162,34 @@ void lemma31()
 	 * The proof of correctness is now complete.
 	 *
 	 * Let us now analyze the complexity of the algorithm.
-	 * To test whether aj lies in R can be done in O(f(y2)) time by using the ray-shooters for each arc that bounds R: first we find which point of an arc is hit by a ray of light shot from aj in its assigned chord direction.
+	 * To test whether aj lies in R can be done in O(f(γ2)) time by using the ray-shooters for each arc that bounds R: first we find which point of an arc is hit by a ray of light shot from aj in its assigned chord direction.
 	 * If there is no hit on any arc, aj is not in R.  Else, let s be the first point hit by the ray over all the arcs of R.
 	 * Whether aj lies in R or not can be directly inferred from the local orientation of the hit at s and which side of the double boundary is hit.
 	 * This is because, as we should recall, arc-structures encode on which side(s) of the boundary the arcs lie.  If aj lies in R, then s is the point of ∂C2 seen by aj with respect to C2.
 	 * Next we use local shooting within S1 to determine the point t of ∂C1 hit by a ray of light shot from aj in its assigned direction.
 	 * Note that most often (i.e. when 0<j<=m) aj is the endpoint of a chord of S1 so t is just the other endpoint of the chord.
 	 * Now that we know which points of ∂C1 and ∂C2 the point aj can see, we can immediately derive the point of ∂C that it sees and, from there decide whether we are in case (i).
-	 * The test takes O(f(y1)+f(y2)) = O(f(y2)) time (since f is nondecreasing and y1<=y2).  This cost also includes the start-up phase.
+	 * The test takes O(f(γ1)+f(γ2)) = O(f(γ2)) time (since f is nondecreasing and γ1<=γ2).  This cost also includes the start-up phase.
 	 *
 	 * Regarding (ii), we must assess how fast we can find the point of ∂C that is seen by an endpoint a of a given exit cord ab of R.  Actually, we must find that point only if it belongs Aj.
-	 * So, we can shoot a ray of light from a toward Aj in the appropriate direction and see what happens, which takes O(f(y1)) time.
+	 * So, we can shoot a ray of light from a toward Aj in the appropriate direction and see what happens, which takes O(f(γ1)) time.
 	 * If we do not get a hit, or if the hit does not lie on ab, or if it occurs before p along Aj,
 	 * or if it does not have the proper orientation which lets a see Aj without the other side of the double boundary of Aj interfering (a constant-time test), then the endpoint can be disqualified.
 	 * Otherwise, we must find whether the point s of Aj hit by the ray of light can see a with respect to C:
 	 * the problem here is that other arcs Ai (i != j) might get in the way.  Using the local shooting in S1, however,
 	 * we can shoot a ray of light from s toward a.  We aim in the natuarl shooting direction from s since we have already ruled out that the "companion" point of s should prevent it from seeing a.
-	 * The point t hit by the ray is found in O(f(y1)) time.
+	 * The point t hit by the ray is found in O(f(γ1)) time.
 	 * If shooting from s to t passes through a, then s and a see each other with respect to C and we fall in case (ii),
 	 * else we know that case (ii) cannot occur with respect to Aj and the endpoint a of the chord ab (although it might occur with respect to other endpoints of exit chords in R).
-	 * This shows that testing case (ii) takes O(f(y1)) time.
+	 * This shows that testing case (ii) takes O(f(γ1)) time.
 	 *
-	 * We thus have shown that every elementary test (i), (ii) can be performed in O(f(y2)) time.
+	 * We thus have shown that every elementary test (i), (ii) can be performed in O(f(γ2)) time.
 	 * At each such test we advance through the list of Ai's or we report a pair of visible points in ∂C,
 	 * one of which is an endpoint of an exit chord of S2.
 	 * These reports are never duplicated because we always move forward among the Ai's
-	 * Therefore, to discover all the chords of the fusion S of S1 and S2 takes time O(mf(y2)) time,
+	 * Therefore, to discover all the chords of the fusion S of S1 and S2 takes time O(mf(γ2)) time,
 	 * where m is the total number of arcs and exit chords in S1 and S2.
-	 * By Lemma 2.3, m is O(n1/y1+n2/y2+1).  Note that among the chords to be included in the fusion S,
+	 * By Lemma 2.3, m is O(n1/γ1+n2/γ2+1).  Note that among the chords to be included in the fusion S,
 	 * we not only have the newly discovered chords that connect ∂C1 and ∂C, as well as the old chords of S1 and S2 that still form visible pairs of points with respect to C,
 	 * but we also have all the null-length chords of S1 and S2 as well as the thords incident upon the vertices of ∂C resulting from the duplication of the vertex C1 n C2; this last category is where null-length chords originate.
 	 * After fusing S1 (resp. S2) into S2 (resp. S1), we have all the chords of the submap S and we can set it up in normal form quite easily.
@@ -199,34 +199,34 @@ void lemma31()
 	 * With this information it is now straightforward to set up the tree of the submap S, along with all the necessary arc-structures and their relevant pointers.
 	 * Since the submap might not be conformal we dispense with the tree decomposition at this point.  Very conservatievly, all this work can be done in time
 	 *
-	 * O((n1/y1 + n2/y2 + 1)log(n1+n2)).
+	 * O((n1/γ1 + n2/γ2 + 1)log(n1+n2)).
 	 *
 	 * Putting everything together, we derive the upper bound of 
 	 *
-	 * O((n1/y1 + n2/y2 + 1)(f(y2) + log(n1+n2)))
+	 * O((n1/γ1 + n2/γ2 + 1)(f(γ2) + log(n1+n2)))
 	 *
 	 * on the time needed to complete the fusion of S1 and S2. */
 }
 
 /* Given two arcs A1 and A2 of the same region of S, assume that they have a pair of mutually visible points,
  * one of which is a vertex of ∂C (meaning that, say, A1 contains a vertex v which is also a vertex eof ∂C and is such that the point of ∂C seen by v lies in A2).
- * Then we can find a point of A1 (not necessarily a vertex of ∂C that sees A2 in time O(f(y2)g(y2)(h(y2) + log y2)) */
+ * Then we can find a point of A1 (not necessarily a vertex of ∂C that sees A2 in time O(f(γ2)g(γ2)(h(γ2) + log γ2)) */
 void lemma32()
 {
 	/* To begin, observe that A1 and A2 are arcs or subarcs of either S1 or S2 but cannot overlay both ∂C1 and ∂C2.
 	 * The reason is that all chord endpoints in S1 and S2 are still chord endpoints in S (perhaps with different chords) and that we added chords incident upon the vertices of ∂C resulting from the duplication of the vertex C1 n C2.
 	 * Therefore, because of the bounded number of arcs per region, it is still possible to do local shooting within any region of S.
-	 * Since y1 <= y2 and f is nondecreasing this takes O(f(y2)) time.  Thus, we can efficiently check, in time
-	 * O(f(y2)), whether a given vertex of A1, qualifies as the point v sought.
+	 * Since γ1 <= γ2 and f is nondecreasing this takes O(f(γ2)) time.  Thus, we can efficiently check, in time
+	 * O(f(γ2)), whether a given vertex of A1, qualifies as the point v sought.
 	 * (Again, we must be careful that local shooting reports edges of P and does not tell us if the point hit is on the desired arc or is the companion of a point of the arc.
 	 * We already discussed how local checking can decide which way it is in constant time,
 	 * so we will not make further mention of that minor difficulty.)  Of course, we should not check all the vertices of A1 because there might just be too many of them.
 	 * Instead, we need to do some kind of binary search among the vertices of A1.
-	 * For that purpose we invoke the arc-cutter associated with the arc of S1 or S2 containing A1, which allows us to subdivide A1 into at most g(y1) subarcs, with l=1 if A1 ∂C1 and l=2 if A1 ∂C2.
-	 * Except for at most two-single edge subarcs attached to the endpoints of A1 (which we ignore), for each subarc a we have a normal-form h(yi)-granular conformal submap Sa of V(abar).
+	 * For that purpose we invoke the arc-cutter associated with the arc of S1 or S2 containing A1, which allows us to subdivide A1 into at most g(γ1) subarcs, with l=1 if A1 ∂C1 and l=2 if A1 ∂C2.
+	 * Except for at most two-single edge subarcs attached to the endpoints of A1 (which we ignore), for each subarc a we have a normal-form h(γi)-granular conformal submap Sa of V(abar).
 	 * We search each subarc in turn, stopping as soon as we find a good vertex or point, if ever.
 	 * Since the normal-form representation of Sa provides us with the tree decomposition T of the submap,
-	 * we are able to check the candidacy of a in its entirety in O(f(y2)(h(y2)+log(y2)) time, provided that the following test can be performed in O(f(y2)) time: given a chord ab of Sa,
+	 * we are able to check the candidacy of a in its entirety in O(f(γ2)(h(γ2)+log(γ2)) time, provided that the following test can be performed in O(f(γ2)) time: given a chord ab of Sa,
 	 * either determine that a or b is a point of a and sees A2 with respect to C, or find some i{1,2} such that a n ai is empty or has no point that sees A2, where a1 and a2 denote the two pieces of 6abar between a and b.
 	 * Note that 6abar is a superset of a with twice the number of vertices (not fewer because the arc-cutter oracle guarantees that a does not double-back around an endpoint).
 	 * First we show how such a test can be used to check the candidacy of a.  Then we explain how to implement the test and why it covers all possible cases.
@@ -237,14 +237,14 @@ void lemma32()
 	 * Note that determining which node to branch to at each step is trivial once we have identified the ai to be rejected.
 	 * (So, we can perform the test just as stated above without having to "resize" a to reflect the current status of the ever-shrinking set of candidates).
 	 * If we reach a leaf, we examine each vertex of the region associated with it and, among those belonging to a, we check whether any of them can see A2.
-	 * Since there are only O(h(y2)) vertices in the region and the depth of the tree is O(log y2) the running time of the algorithm is O(f(y2)(h(y2)+logy2)), as claimed.
-	 * Again we use the fact that y1 <= y2 and that h is nondecreasing.
+	 * Since there are only O(h(γ2)) vertices in the region and the depth of the tree is O(log γ2) the running time of the algorithm is O(f(γ2)(h(γ2)+logγ2)), as claimed.
+	 * Again we use the fact that γ1 <= γ2 and that h is nondecreasing.
 	 * Whenever we discover a successful candidate point, the search can obviously be stopped right there.
 	 * What remains to be seen is why upon reaching a leaf the corresponding region is the only one which can still provvide the desired answer.
 	 * Let us assume that the search ends up at a leaf.  At the very beginning, let us say that each point of 6abar is a candidate.
 	 * Every time we branch down the tree we limit the candidacy to those points, of 6abar in the regions of Sa associated with the leaves of the subtree which we entere.
 	 * At the end, the remaining candidates are the vertices in the region associated with the leaf where the tree search ends.  This proves the correctness of the procedure.
-	 * So, to summarise, if the basic test stated earlier can be performed in O(f(y2)) time, then we can solve the entire problem in O(f(y2)g(y2)(h(y2)+logy2)) time, which proves the lemma.
+	 * So, to summarise, if the basic test stated earlier can be performed in O(f(γ2)) time, then we can solve the entire problem in O(f(γ2)g(γ2)(h(γ2)+logγ2)) time, which proves the lemma.
 	 * We now show how to perform the test and why it is sound, i.e. covers all cases.
 	 * Removing 6abar from the spherical plane leaves two open regions, each polygonal and homeomorphic to a disk.
 	 * One of them is infinitesimally small; let D be the closure of the other one.
@@ -255,7 +255,7 @@ void lemma32()
 	 * The subarc a runs clockwise from c to d and corresponds to B1 U B2.  Figure 3.4 shows the case where only one endpoint of ab lies in B1 U B2, which corresponds to Figure 2.8.2.
 	 * The reader will easily draw an example matching the case of Figure 2.8.1, where both a and b lie in a = B1 U B2.
 	 * To compute a' and b' (if defined) can be done by local shooting in the region of S incident upon A1 and A2,
-	 * which takes O(f(y2)) time.  Note that no shooting is needed for a or b if the point in question does not lie in a.
+	 * which takes O(f(γ2)) time.  Note that no shooting is needed for a or b if the point in question does not lie in a.
 	 * If ever a (resp. b) is a point of a and a' (resp. b') belongs to A2, then obivously we are done and successful in our search, so we can assume that neither conjunction holds.
 	 * But, in that case, A2, lies entirely within one of the connected components of the curve A after it has been cut up by removing a' and b' (whichever exists).
 	 * Therefore, by Lemma 2.4, A2 must be shielded from some Bi, which means that it cannot be connected to Bj without crossing ab or A.
@@ -285,37 +285,37 @@ void lemma33()
 
 /*
  * The submap S can be made conformal in time
- * O((n1/y1 + n2/y2 + 1)f(y2)g(y2)h(y2) + log y2). */
+ * O((n1/γ1 + n2/γ2 + 1)f(γ2)g(γ2)h(γ2) + log γ2). */
 void lemma34()
 {
 	/* Equipped with the two previous lemmas, making S conformal is now quite easy.  Recall that although S might not be conformal right after fusion, none of its regions has more than a bounded number of arcs.
 	 * For any region with more than four arcs, let us apply lemma 3.2 to every pair of nonconsecutive arcs until we find a chord which we can add to S.  We iterate on this process until no region has more than four arcs.
 	 * Note that although S keeps changing, Lemma 3.2 always holds since region arcs can only become smaller.  Lemma 3.3 tells us that this chord addition process will not stop until S becomes conformal.
-	 * Since the total number of arcs in S is O(n1/y1 + n2/y2 + 1), we conclude: */
+	 * Since the total number of arcs in S is O(n1/γ1 + n2/γ2 + 1), we conclude: */
 }
 
 /* Maintaining Granularity
  *
  * Let C1 and C2 be two polygonal curves of n1 and n2 vertices, respectively, whose union forms a connected vertex-to-vertex piece of the input
- * (simple and nonclode) polygonal curve P.  Suppose that we are given a normal-form yi-granular conformal submap of each V(Ci), where y1 <= y2,
- * along with the ray-shooting and arc-cutting oracles necessary for merging.  Then, for any y >= y2, it is possible to compute a normal-form y-granular conformal submap of V(C)
- * in time O((n1/y1 + n2/y2 + 1)f(y2)g(y2)(h(y2) + log(n1+n2))). */
+ * (simple and nonclode) polygonal curve P.  Suppose that we are given a normal-form γi-granular conformal submap of each V(Ci), where γ1 <= γ2,
+ * along with the ray-shooting and arc-cutting oracles necessary for merging.  Then, for any γ >= γ2, it is possible to compute a normal-form γ-granular conformal submap of V(C)
+ * in time O((n1/γ1 + n2/γ2 + 1)f(γ2)g(γ2)(h(γ2) + log(n1+n2))). */
 
 void lemma35()
 {
-	 /* Since by making S conformal we did not remove any exit chord, it is still the case that, as observed in the proof of Lemma 3.2, no arc has more than y2 edges.
-	 * Therefore, S is conformal and y2-semigranular.  We must now check whether the second citerion for y2-granularity holds.  This criterion says that contracting any edge of the submap
-	 * tree that is incident upon at least one node of degree less than 3 produces a new node whose weight exceeds y2.  This is very easy to enforce: if an edge does not pass the test,
+	 /* Since by making S conformal we did not remove any exit chord, it is still the case that, as observed in the proof of Lemma 3.2, no arc has more than γ2 edges.
+	 * Therefore, S is conformal and γ2-semigranular.  We must now check whether the second citerion for γ2-granularity holds.  This criterion says that contracting any edge of the submap
+	 * tree that is incident upon at least one node of degree less than 3 produces a new node whose weight exceeds γ2.  This is very easy to enforce: if an edge does not pass the test,
 	 * we just contract it by removing its corresponding exit chord (and those endpoints that are not vertices of ∂C).  Note that this will not cause a violation of the first criterion,
-	 * since the size of all the arcs will always remain within y2.  Similarly, the removal keeps the submap conformal.  We process each exit chord in turn and check whether it is removable.
-	 * Chords need be processed only once since the removals cannot make any chord removable if it was not already so before.  Therefore, y2-granularity, and more generally y-granularity,
-	 * for any y >= y2, can be enforced in this nondetermininistic fashion in time linear in the size of the submap tree, that is, O(n1/y1 + n2/y2 + 1).  We can now put S in normal form,
-	 * which includes computing its tree decomposition.  As we discussed earlier, this can be done very simply in time O((n1/y1 + n2/y2 + 1)log(n1+n2)).  With the inconsequential assumption that
-	 * yi = O(n1+n2), we derive the following result from Lemmas 3.1 and 3.4 */
+	 * since the size of all the arcs will always remain within γ2.  Similarly, the removal keeps the submap conformal.  We process each exit chord in turn and check whether it is removable.
+	 * Chords need be processed only once since the removals cannot make any chord removable if it was not already so before.  Therefore, γ2-granularity, and more generally γ-granularity,
+	 * for any γ >= γ2, can be enforced in this nondetermininistic fashion in time linear in the size of the submap tree, that is, O(n1/γ1 + n2/γ2 + 1).  We can now put S in normal form,
+	 * which includes computing its tree decomposition.  As we discussed earlier, this can be done very simply in time O((n1/γ1 + n2/γ2 + 1)log(n1+n2)).  With the inconsequential assumption that
+	 * γi = O(n1+n2), we derive the following result from Lemmas 3.1 and 3.4 */
 }
 
-/* Let C be a connectexd vertex-to-vertex piece of the input polygonal curve P and let m be its number of vertices.
- * Let S be a normal-form y-granular conformal submap of V(C).
+/* Let C be a connected vertex-to-vertex piece of the input polygonal curve P and let m be its number of vertices.
+ * Let S be a normal-form γ-granular conformal submap of V(C).
  * Then it is possible to preprocess S in O(m(log m)/y+1) time so that ray-shooting within S can be done in time O(y^(1/3)m^(2/3)). */
 void lemma36()
 {
@@ -329,7 +329,7 @@ void lemma36()
 	 * [9] and [19], are inadequate for several reasons, the most crucial of which is their inability support merging
 	 * in sublinear time.  We turn this problem around by exploiting futher the approximation scheme provided by the concept of granularity.
 	 * Let C be a connected vertex-to-vertex piece of the input polygonal curve P and let m its number of vertices.
-	 * Let S be a normal-form y-granular conformal submap of V(C).  So far, we have focused mostly on the tree structure of S.
+	 * Let S be a normal-form γ-granular conformal submap of V(C).  So far, we have focused mostly on the tree structure of S.
 	 * But let us now regard S as a planar graph.  For this purpose, we must temporarilty forget the fact that C has been given a double boundary.
 	 * We define S* to be the planar subdivision obtained by taking S and making every vertex
 	 * (vertices of ∂C and chord endpoints) a vertex on both sides of the double boundary, whose thickness is now null.
@@ -622,8 +622,8 @@ void merge_submaps()
 	 * at what time, and with what desired granularity.
 	 *
 	 * Let C1 and C2 be two polygonal curves of n1 and n2 vertices respectively, whose union C forms a connected vertex-to-vertex piece of the input
-	 * (simple and nonclosed) polygonal curve P; we assume that C1 n C2 is a vertex of P.  Let Si (i = 1,2) be a yi-granular confromal submap of V(Ci), with y1 <= y2.  Given any integer y >= y2,
-	 * to merge S1 and S2 (where y is understood) means to compute a normal-form y-granular conformal submap of V(C).
+	 * (simple and nonclosed) polygonal curve P; we assume that C1 n C2 is a vertex of P.  Let Si (i = 1,2) be a γi-granular confromal submap of V(Ci), with γ1 <= γ2.  Given any integer y >= γ2,
+	 * to merge S1 and S2 (where y is understood) means to compute a normal-form γ-granular conformal submap of V(C).
 	 * To facilitate the exposition we assume that we have at our dispoal two primitives: one is a ray-shooting oracle, which allows us to shoot a horizontal ray toward any subarc of S1 or S2 and discover which point,
 	 * if any, is first hit by the ray; this gives us a way to discover new chords.  The other primitive is an arc-cutting oracle, which enables us to cut up any subarc into a small number of pieces for which 
 	 * conformal submaps of the appropriate granularity have already been computed.  This is to be used for restoring the conformality of merged submaps.
@@ -645,19 +645,19 @@ void merge_submaps()
 	 * 	(along with two pointers to the input table to indicate the names of the edges of P that contain these two endpoints as well as two flags indicating which side of 6P is to be understood),
 	 * 	reports the single point of a' (if any) that a ray of light shot from p in the given direction would hit in the absence of any obstacle except a'.
 	 * 	In addition to the point hit, the report should also include the name of the edge of P that contains it.
-	 * 	The report should take O(f(yi)) time, where f is a nondecreasing function.
-	 * (ii) There exists an arc-cutter which, in O(g(yi)) time, subdivides the subarc a' into at most g(yi) subarcs a1, a2, ..., such that
+	 * 	The report should take O(f(γi)) time, where f is a nondecreasing function.
+	 * (ii) There exists an arc-cutter which, in O(g(γi)) time, subdivides the subarc a' into at most g(γi) subarcs a1, a2, ..., such that
 	 * 	(1) each aj is specified by its two endpoints and a pair of pointers into the input table to indicate which edges of P contain these endpoints;
 	 * 		the pair should be ordered to reflect a clockwise traversal along 6P and two flags should be included to indicate on which sides of 6P these endpoints fall;
 	 * 	(2) the relative interior of no aj sohuld contain a point of ∂Ci that corresponds to an endpoint of Ci, that is, each subarc must lie entirely on one side of ∂C (no double-backing); and
 	 * 	(3) except for a1bar and a2bar (in the case where these are single-edge pieces attached to the points of C corresponding to the endpoints of a'), all the ajbas are vertex-to-vertex subchains of Ci
-	 * (i.e., they do not stop in the middle of an edge) and, for each of them, an h(yi)-granular conformal submap of V(ajbar) is available in normal form.  Again, g and h are assumed to be nondecreasing functions.
+	 * (i.e., they do not stop in the middle of an edge) and, for each of them, an h(γi)-granular conformal submap of V(ajbar) is available in normal form.  Again, g and h are assumed to be nondecreasing functions.
 	 *
 	 * Given these oracles we show how to merge S1 and S2 in
 	 *
-	 * O((n1/y1 + n2/y2 + 1)f(y2)g(y2)(h(y2) + log(n1+n2)))
+	 * O((n1/γ1 + n2/γ2 + 1)f(γ2)g(γ2)(h(γ2) + log(n1+n2)))
 	 *
-	 * time.  Ideally, we would like the extra factor f(y2)g(y2)(h(y2) + log(n1+n2)) to be constant.  This would mean that the merge could be done in time proportional not to the total size of the submaps
+	 * time.  Ideally, we would like the extra factor f(γ2)g(γ2)(h(γ2) + log(n1+n2)) to be constant.  This would mean that the merge could be done in time proportional not to the total size of the submaps
 	 * but to the number of chords in them.  We cannot archive this, but we can find functions f, g, h which, although nonconstant, are small enough for our purposes.
 	 * Specifically, we have f(x) = O(x^0.74), g(x) = O(log x{, and h(x) = O(x^0.20).  This allows us to carry out a merge in time almost proportional to the total number of chords.
 	 * Note that to archive f(x) = g(x) = x is trivial but, for our purposes, completely useless. */
