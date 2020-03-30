@@ -485,7 +485,7 @@ void lemma42()
 
 	lemma41();
 	 /*
-	 * λ^2(log λ)2^(B*λ(1-B/3+4*B^2/3{
+	 * λ^2(log λ)2^(B*λ(1-B/3+4*B^2/3))
 	 *
 	 * Each of these submaps has granularity at most 2^[B[Bλ]], so we can pursue the merging by putting
 	 * together all these submaps and thus create a single normal form 2^[B[B*λ]]-granular conformal submap of V(R*),
