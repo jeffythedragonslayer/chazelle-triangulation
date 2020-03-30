@@ -42,7 +42,7 @@ struct Submap
 	 * (i) The tree of the submap (or map) is represented in standard edge/node adjacency fashion.
 	 * (ii) Each edge contains a record describing the corresponding chord as well as pointers to the arc-structures
 	 * 	of the two, three, or four arcs adjacent to it.  Conversely, each arc-structure has a pointer to the node of the tree whose corresponding region is incident upon the arc in question.
-	 * (iii) The arc-structures are stored in a table (the arc-sequence table) in the order corresponding to a canonical traversal of the double boundary 6C.
+	 * (iii) The arc-structures are stored in a table (the arc-sequence table) in the order corresponding to a canonical traversal of the double boundary ∂C.
 	 * 	Also, the endpoints of C are identified by appropriate pointers int the input table as well as by pointers to the arc-structures whose corresponding arcs pass through the endpoints.
 	 * (iv) If the submap is conformal, then its tree decomposition should be avilable. 
 	 *
@@ -51,9 +51,9 @@ struct Submap
 	 * It is essential to avoid duplication of information because we need to encode a collection of submaps whose number of distinct features is only O(n),
 	 * but whose combined size, counting redundancc, is big theta(n log n).
 	 * Note that our representation is powerful enough to let us perform canonical vertex/region enumerations in optimal time.
-	 * If we wish to, we can also enumerate all the vertices of 6C in clockwise order directly from a canonical vertex enumeration of the submap, since any arc can be reconstructed explicitly from the succinct
+	 * If we wish to, we can also enumerate all the vertices of ∂C in clockwise order directly from a canonical vertex enumeration of the submap, since any arc can be reconstructed explicitly from the succinct
 	 * information given by the arc-structure: it sufficies to explore the input table between the locations indicated by the two pointers of the arc-structure.
-	 * Note that caution must be used since an arc might wrap around both sides of 6C, something we call double-backing.
+	 * Note that caution must be used since an arc might wrap around both sides of ∂C, something we call double-backing.
 	 * This can be detected when we traverse the arc as soon as we reach an edge of P incident upon an endpoint of C.
 	 * Perhaps a less obvious task is to retrieve the arc-structure corresponding to an arc, given one of its edges.  More specifically, suppose that we are given an edge e of C and a point q on it.
 	 * The question is to find the arc-structures of all those arcs in the submap that pass through the point q.
@@ -84,10 +84,10 @@ void lemma21()
 }
 
 /* Let A1,...,Ak be the counter clockwise enumeration of the (oriented) arcs of a nonempty submap region (as induced from the region's orientation).
- * Then each Ai is oriented clockwise with respect to 6C.  Moreover, the sequence A1,..,Ak also occurs clockwise around 6C. */
+ * Then each Ai is oriented clockwise with respect to ∂C.  Moreover, the sequence A1,..,Ak also occurs clockwise around ∂C. */
 void lemma22()
 {
-	/* The curve 6C is homeomorphic to a circle embedded in the spherical plane.
+	/* The curve ∂C is homeomorphic to a circle embedded in the spherical plane.
 	 * Adding a chord is topologically equivalent to connecting two points on the circle by simple curve lying entirely on one side of the circle.
 	 * The requirement that all these curves should be mutually disjoint induces a parenthesis system which immediately reveals the tree structure of the dual graph.
 	 * This is similar to teh parenthesis system in Jordan sorting [18].  As an example, Figure 2.5 depicts the topological equivalent of the submap of Fig. 2.4.
@@ -102,7 +102,7 @@ void lemma23()
 	 * It is trivial to show by induction on the size of the tree that E accounts for at least a fixed fraction of all the edges.
 	 * Now, contracting any edge in E, or equivalently, removing a chord associated with E produces a merged region of weight greater than y,
 	 * meaning that it has an arc with more than y edges of nonzero length.
-	 * Since a vertex of C can give rise to at most four vertices of 6C, and removed chords do not leave extra vertices behind except those of 6C,
+	 * Since a vertex of C can give rise to at most four vertices of ∂C, and removed chords do not leave extra vertices behind except those of ∂C,
 	 * such an arc must involve at least omega(y) distinct vertices of C.  If contracting any edge of E were always to produce a disjoint merged region,
 	 * then it would follow from the pigeon-hole principle that E, and hence the whole tree, has O(n/y+1) edges.
 	 * Unfortunately, two edges of E might produce overlapping merged regions (i.e, if they share a common node).
@@ -134,44 +134,44 @@ void lemma31()
 	/* We restrict our attention to the task of fusing S1 into S2, the other case being similar.
 	 * We have already shown that the start-up phase leads to a situation which satisfies the loop invariant,
 	 * so it sufficies to establish the correctness of the inner loop past a0.
-	 * In case (i) we know that aj lies in R (actually in its interior) and sees a point of 6C2, so invariant (B) is satisified.
-	 * How about (A)?  We made the claim that ak,...,aj-1 all see points of 6C1.  But actually the negation of (i0
+	 * In case (i) we know that aj lies in R (actually in its interior) and sees a point of ∂C2, so invariant (B) is satisified.
+	 * How about (A)?  We made the claim that ak,...,aj-1 all see points of ∂C1.  But actually the negation of (i0
 	 * for ak,...,aj-1 is not strong enough to reach the necessary conclusion about what ak,...,aj-1 must see.
-	 * Any of these points (if they exist) either sees 6C1, or lies outside of R.
-	 * Why should lying outside R imply seeing 6C1?  Suppose that, for some l (k <= l < j), al lies in region R' distict
-	 * from R (like ak+1 in Figure 3.2.1 but also sees 6C2.  We derive a contradiction.
-	 * Let A denote the directed portion of 6C1 as we go from p ta a1 clockwise, and let q (resp. q') be the point of 6C seen by p (resp. a1).
-	 * The union of A, the chords pq and a'q', and the portion B of 6C2 running clockwise (with respect to C2) from q' to q forms the boundary of a simple ploygon (Figure 3.3).
+	 * Any of these points (if they exist) either sees ∂C1, or lies outside of R.
+	 * Why should lying outside R imply seeing ∂C1?  Suppose that, for some l (k <= l < j), al lies in region R' distict
+	 * from R (like ak+1 in Figure 3.2.1 but also sees ∂C2.  We derive a contradiction.
+	 * Let A denote the directed portion of ∂C1 as we go from p ta a1 clockwise, and let q (resp. q') be the point of ∂C seen by p (resp. a1).
+	 * The union of A, the chords pq and a'q', and the portion B of ∂C2 running clockwise (with respect to C2) from q' to q forms the boundary of a simple ploygon (Figure 3.3).
 	 * Since the dual graph of a submap is a tree, there is a unique exit chord ab of R that leads to R' (note that ab need not be an exit chord of R', since there might be one or even several regions separating R from R').
 	 * Because B runs from R' to R it passes through one of the chord endpoints, say, a.  Let a' be the point of ab n A first encountered as we go from a to b along the chord.  Note that ab cuts through A, so a' is well defined.
-	 * The points a and a' see each other with respect to 6C, and a' lies in Ak, for some h between k and l inclusive.
+	 * The points a and a' see each other with respect to ∂C, and a' lies in Ak, for some h between k and l inclusive.
 	 *
-	 * Because, in clockwise order around 6C, the point a' is leaving R locally, it cannot be equal to p.
+	 * Because, in clockwise order around ∂C, the point a' is leaving R locally, it cannot be equal to p.
 	 * Therefore, the inequality l < j implies that case (ii) must have already aoccurred when the running variable j was assigned to some integer between k and l, which is impossible.
 	 *
 	 * Having shown that the loop invariant remains satisfied through case (i), we must do the same with case (ii).
-	 * Let A now denote the directed portion of 6C1 as we go from p to aj clockwise.
+	 * Let A now denote the directed portion of ∂C1 as we go from p to aj clockwise.
 	 * The new assignment of p is the last paint of A, distinct from p, that sees an endpoint of an exit chord of R.
 	 * Certainly, the new assignment of the current region satisfies invariant (B).  Figure 3.2.1 shows three candidate endpoints, with q3 winning the contest.
-	 * Turning now to invariant (A), we must prove our claim that the points of 6C seen by ak,...,aj-1 all belong to 6C1.  We omit the proof since it is identical to the previous one, with the role of aj now played by p'.
+	 * Turning now to invariant (A), we must prove our claim that the points of ∂C seen by ak,...,aj-1 all belong to ∂C1.  We omit the proof since it is identical to the previous one, with the role of aj now played by p'.
 	 *
 	 * What about termination?  Obivously, the three cases rule out an infinite loop.
 	 * Every time we fall in either of the two cases (i) or (ii) we determine more visibility information, so that all visiiblity relations are known from a0 all the way to the current position of p.
-	 * How about the last iteration, the one leading to case (iii)?  We claimed that all ai's (k <= i < m+1) see points of 6C1.
-	 * This follows from the proof of the last paragraph, which showed that if a1 sees 6C2, then either al lies in R (case (i)) or it does not, but then, we must fall in case (ii) after leaving p but upon or prior to getting to al.
+	 * How about the last iteration, the one leading to case (iii)?  We claimed that all ai's (k <= i < m+1) see points of ∂C1.
+	 * This follows from the proof of the last paragraph, which showed that if a1 sees ∂C2, then either al lies in R (case (i)) or it does not, but then, we must fall in case (ii) after leaving p but upon or prior to getting to al.
 	 * The proof of correctness is now complete.
 	 *
 	 * Let us now analyze the complexity of the algorithm.
 	 * To test whether aj lies in R can be done in O(f(y2)) time by using the ray-shooters for each arc that bounds R: first we find which point of an arc is hit by a ray of light shot from aj in its assigned chord direction.
 	 * If there is no hit on any arc, aj is not in R.  Else, let s be the first point hit by the ray over all the arcs of R.
 	 * Whether aj lies in R or not can be directly inferred from the local orientation of the hit at s and which side of the double boundary is hit.
-	 * This is because, as we should recall, arc-structures encode on which side(s) of the boundary the arcs lie.  If aj lies in R, then s is the point of 6C2 seen by aj with respect to C2.
-	 * Next we use local shooting within S1 to determine the point t of 6C1 hit by a ray of light shot from aj in its assigned direction.
+	 * This is because, as we should recall, arc-structures encode on which side(s) of the boundary the arcs lie.  If aj lies in R, then s is the point of ∂C2 seen by aj with respect to C2.
+	 * Next we use local shooting within S1 to determine the point t of ∂C1 hit by a ray of light shot from aj in its assigned direction.
 	 * Note that most often (i.e. when 0<j<=m) aj is the endpoint of a chord of S1 so t is just the other endpoint of the chord.
-	 * Now that we know which points of 6C1 and 6C2 the point aj can see, we can immediately derive the point of 6C that it sees and, from there decide whether we are in case (i).
+	 * Now that we know which points of ∂C1 and ∂C2 the point aj can see, we can immediately derive the point of ∂C that it sees and, from there decide whether we are in case (i).
 	 * The test takes O(f(y1)+f(y2)) = O(f(y2)) time (since f is nondecreasing and y1<=y2).  This cost also includes the start-up phase.
 	 *
-	 * Regarding (ii), we must assess how fast we can find the point of 6C that is seen by an endpoint a of a given exit cord ab of R.  Actually, we must find that point only if it belongs Aj.
+	 * Regarding (ii), we must assess how fast we can find the point of ∂C that is seen by an endpoint a of a given exit cord ab of R.  Actually, we must find that point only if it belongs Aj.
 	 * So, we can shoot a ray of light from a toward Aj in the appropriate direction and see what happens, which takes O(f(y1)) time.
 	 * If we do not get a hit, or if the hit does not lie on ab, or if it occurs before p along Aj,
 	 * or if it does not have the proper orientation which lets a see Aj without the other side of the double boundary of Aj interfering (a constant-time test), then the endpoint can be disqualified.
@@ -184,16 +184,16 @@ void lemma31()
 	 * This shows that testing case (ii) takes O(f(y1)) time.
 	 *
 	 * We thus have shown that every elementary test (i), (ii) can be performed in O(f(y2)) time.
-	 * At each such test we advance through the list of Ai's or we report a pair of visible points in 6C,
+	 * At each such test we advance through the list of Ai's or we report a pair of visible points in ∂C,
 	 * one of which is an endpoint of an exit chord of S2.
 	 * These reports are never duplicated because we always move forward among the Ai's
 	 * Therefore, to discover all the chords of the fusion S of S1 and S2 takes time O(mf(y2)) time,
 	 * where m is the total number of arcs and exit chords in S1 and S2.
 	 * By Lemma 2.3, m is O(n1/y1+n2/y2+1).  Note that among the chords to be included in the fusion S,
-	 * we not only have the newly discovered chords that connect 6C1 and 6C, as well as the old chords of S1 and S2 that still form visible pairs of points with respect to C,
-	 * but we also have all the null-length chords of S1 and S2 as well as the thords incident upon the vertices of 6C resulting from the duplication of the vertex C1 n C2; this last category is where null-length chords originate.
+	 * we not only have the newly discovered chords that connect ∂C1 and ∂C, as well as the old chords of S1 and S2 that still form visible pairs of points with respect to C,
+	 * but we also have all the null-length chords of S1 and S2 as well as the thords incident upon the vertices of ∂C resulting from the duplication of the vertex C1 n C2; this last category is where null-length chords originate.
 	 * After fusing S1 (resp. S2) into S2 (resp. S1), we have all the chords of the submap S and we can set it up in normal form quite easily.
-	 * In order to allow for canoncial vertex enumerations, let us sort the endpoints of these chords along 6C, which is done by sorting the names of the edges of P on which these arcs abut,
+	 * In order to allow for canoncial vertex enumerations, let us sort the endpoints of these chords along ∂C, which is done by sorting the names of the edges of P on which these arcs abut,
 	 * and then sorting the endpoints falling within the same edges by considering y-coordinates.  This allows us to set up the required arc-sequence table.
 	 * Note that merging can also be used instead of sorting but this step is not the dominant cost, anyway.
 	 * With this information it is now straightforward to set up the tree of the submap S, along with all the necessary arc-structures and their relevant pointers.
@@ -209,12 +209,12 @@ void lemma31()
 }
 
 /* Given two arcs A1 and A2 of the same region of S, assume that they have a pair of mutually visible points,
- * one of which is a vertex of 6C (meaning that, say, A1 contains a vertex v which is also a vertex eof 6C and is such that the point of 6C seen by v lies in A2).
- * Then we can find a point of A1 (not necessarily a vertex of 6C that sees A2 in time O(f(y2)g(y2)(h(y2) + log y2)) */
+ * one of which is a vertex of ∂C (meaning that, say, A1 contains a vertex v which is also a vertex eof ∂C and is such that the point of ∂C seen by v lies in A2).
+ * Then we can find a point of A1 (not necessarily a vertex of ∂C that sees A2 in time O(f(y2)g(y2)(h(y2) + log y2)) */
 void lemma32()
 {
-	/* To begin, observe that A1 and A2 are arcs or subarcs of either S1 or S2 but cannot overlay both 6C1 and 6C2.
-	 * The reason is that all chord endpoints in S1 and S2 are still chord endpoints in S (perhaps with different chords) and that we added chords incident upon the vertices of 6C resulting from the duplication of the vertex C1 n C2.
+	/* To begin, observe that A1 and A2 are arcs or subarcs of either S1 or S2 but cannot overlay both ∂C1 and ∂C2.
+	 * The reason is that all chord endpoints in S1 and S2 are still chord endpoints in S (perhaps with different chords) and that we added chords incident upon the vertices of ∂C resulting from the duplication of the vertex C1 n C2.
 	 * Therefore, because of the bounded number of arcs per region, it is still possible to do local shooting within any region of S.
 	 * Since y1 <= y2 and f is nondecreasing this takes O(f(y2)) time.  Thus, we can efficiently check, in time
 	 * O(f(y2)), whether a given vertex of A1, qualifies as the point v sought.
@@ -222,7 +222,7 @@ void lemma32()
 	 * We already discussed how local checking can decide which way it is in constant time,
 	 * so we will not make further mention of that minor difficulty.)  Of course, we should not check all the vertices of A1 because there might just be too many of them.
 	 * Instead, we need to do some kind of binary search among the vertices of A1.
-	 * For that purpose we invoke the arc-cutter associated with the arc of S1 or S2 containing A1, which allows us to subdivide A1 into at most g(y1) subarcs, with l=1 if A1 6C1 and l=2 if A1 6C2.
+	 * For that purpose we invoke the arc-cutter associated with the arc of S1 or S2 containing A1, which allows us to subdivide A1 into at most g(y1) subarcs, with l=1 if A1 ∂C1 and l=2 if A1 ∂C2.
 	 * Except for at most two-single edge subarcs attached to the endpoints of A1 (which we ignore), for each subarc a we have a normal-form h(yi)-granular conformal submap Sa of V(abar).
 	 * We search each subarc in turn, stopping as soon as we find a good vertex or point, if ever.
 	 * Since the normal-form representation of Sa provides us with the tree decomposition T of the submap,
@@ -249,7 +249,7 @@ void lemma32()
 	 * Removing 6abar from the spherical plane leaves two open regions, each polygonal and homeomorphic to a disk.
 	 * One of them is infinitesimally small; let D be the closure of the other one.
 	 * It is important that D should be homeomorphic to a closed disk and not to a 2-sphere, so the interior of abar, and,
-	 * more generally, of C, should be understood as being very small but nonempty.  Let c and d be the endpoints of a\on 6abar.  Removing c and d from 6C leaves a and a curve A, both lying in D, so we have set the stage for Lemma 2.4.
+	 * more generally, of C, should be understood as being very small but nonempty.  Let c and d be the endpoints of a\on 6abar.  Removing c and d from ∂C leaves a and a curve A, both lying in D, so we have set the stage for Lemma 2.4.
 	 * Figure 3.4 illustrates the correspondance: the snake on the left represents C; the disk D corresponds to the outside of the portion of the snake between c and d, while it is the inside of the circle on the right.
 	 * The curve A runs along the snake clockwise from d to c; note that it runs on the boundary of D part of the way.
 	 * The subarc a runs clockwise from c to d and corresponds to B1 U B2.  Figure 3.4 shows the case where only one endpoint of ab lies in B1 U B2, which corresponds to Figure 2.8.2.
@@ -265,11 +265,11 @@ void lemma32()
 
 /* Let A1,...,Ak be the clockwise circular sequence of arcs around a region of S.  If k > 4, then there exist i, j, such that
  * (i) i - j != -1, 0, 1 (mod k) and
- * (ii) Ai has a vertex of 6C that sees Aj (with respect to C). */
+ * (ii) Ai has a vertex of ∂C that sees Aj (with respect to C). */
 void lemma33()
 {
 	/* Recall that the region is associtade with a subtree of the visibility tree of C.
-	 * If S contains chords incident upon no vertices of 6C, then we must include these chords as well and speak of the tree of the augmented visibility map of C.
+	 * If S contains chords incident upon no vertices of ∂C, then we must include these chords as well and speak of the tree of the augmented visibility map of C.
 	 * Let us add to the subtree in question the edges that connect it to the rest of the visibility tree.
 	 * With respect to this augmented subtree, each exit chord of the region is associated with a distinct node of degree 1 (but the converse may not be true).
 	 * Note that some of these exit chords might be of zero length.
@@ -278,7 +278,7 @@ void lemma33()
 	 * By using an embedding that preserves the local orientation of the edges around the nodes, the area inside the closed curve is partitioned into k faces, each corresponding to a distinct arc Ai.
 	 * Because there are at least five degree-1 nodes and the maximum node degree is 4, it is immediate that at least one edge of the tree must be indicent upon two faces associated with Ai, and Aj, respectively,
 	 * where i-j != -1, 0, 1 (mod k).  (For a simple proof, try all possible cases with five or more nodes.)
-	 * Of all the chords in the region only the exit chords might fail to be incident upon at least on vertuex of 6C.
+	 * Of all the chords in the region only the exit chords might fail to be incident upon at least on vertuex of ∂C.
 	 * It follows that the edge in question corresponds to one or several chords of the original, nonaugmented V(C) that connect Ai and Aj. */
 }
 
@@ -306,7 +306,7 @@ void lemma35()
 	 /* Since by making S conformal we did not remove any exit chord, it is still the case that, as observed in the proof of Lemma 3.2, no arc has more than y2 edges.
 	 * Therefore, S is conformal and y2-semigranular.  We must now check whether the second citerion for y2-granularity holds.  This criterion says that contracting any edge of the submap
 	 * tree that is incident upon at least one node of degree less than 3 produces a new node whose weight exceeds y2.  This is very easy to enforce: if an edge does not pass the test,
-	 * we just contract it by removing its corresponding exit chord (and those endpoints that are not vertices of 6C).  Note that this will not cause a violation of the first criterion,
+	 * we just contract it by removing its corresponding exit chord (and those endpoints that are not vertices of ∂C).  Note that this will not cause a violation of the first criterion,
 	 * since the size of all the arcs will always remain within y2.  Similarly, the removal keeps the submap conformal.  We process each exit chord in turn and check whether it is removable.
 	 * Chords need be processed only once since the removals cannot make any chord removable if it was not already so before.  Therefore, y2-granularity, and more generally y-granularity,
 	 * for any y >= y2, can be enforced in this nondetermininistic fashion in time linear in the size of the submap tree, that is, O(n1/y1 + n2/y2 + 1).  We can now put S in normal form,
@@ -332,11 +332,11 @@ void lemma36()
 	 * Let S be a normal-form y-granular conformal submap of V(C).  So far, we have focused mostly on the tree structure of S.
 	 * But let us now regard S as a planar graph.  For this purpose, we must temporarilty forget the fact that C has been given a double boundary.
 	 * We define S* to be the planar subdivision obtained by taking S and making every vertex
-	 * (vertices of 6C and chord endpoints) a vertex on both sides of the double boundary, whose thickness is now null.
+	 * (vertices of ∂C and chord endpoints) a vertex on both sides of the double boundary, whose thickness is now null.
 	 * As a result, the edges of S* might be smaller than those of S but, unlike in S, no edge of S* is of zero length
 	 * (zero-length edges are now "contracted" into vertices).  More important, each face of S* coincides exactly
 	 * with a distinct region of S, except for the fact that it might have many more vertices incident upon it.
-	 * Indeed, a region's only vertices are the endpoints of its own exit chords along with some vertices of 6C,
+	 * Indeed, a region's only vertices are the endpoints of its own exit chords along with some vertices of ∂C,
 	 * whereas the vertices of a face include all of the above plus all the chord endpoints that abut on the corresponding region from the outside.
 	 * Notice that since the notion of double boundary is lost, a face might have dangling edges or edges incident upon it on both sides.
 	 * There are several examples of this in Fig. 3.6, which shows the subdivision S* corresponding to the submap of Fig. 2.6.
@@ -354,7 +354,7 @@ void lemma36()
 	 * endpoint that abuts on a nonnull length arc of the region assoicated with the other face.
 	 * The first type of adjacencies can be detected immediately from S.  The latter can be done by double identification,
 	 * as discussed in Section 2.4, followed by sorting along C, which takes O(ulogm) time, where u=O(m/y+1) is
-	 * the number of nodes in G.  It can also be done faster by merging chord endpoints along both sides of 6C.
+	 * the number of nodes in G.  It can also be done faster by merging chord endpoints along both sides of ∂C.
 	 * If u=1, then ray-shooting can be done trivially in O(m) time, so let us assume that u > 1.
 	 * We show that after O(nlogm) preprocessing we can do ray-shooting in O(yu^2/3) time.
 	 * The planarity of G works wonders for us.  The first payoff is that the number of edges is at most 3u-6.
@@ -375,7 +375,7 @@ void lemma36()
 	 * This breaks up the line into segments, every one of which falls entirely within some region;
 	 * to split up the line and identify the regions cut by each segment can be done by traversing G and checking each chord for intersection with a vertical line.
 	 * Since the regions cut correspond to nodes of G lying on a path, sorting the intersections comes for free, and all the work can be done in O(u) time.
-	 * We now claim that ray-shooting toward 6C from any point can be done in O(yu^2/3) time.
+	 * We now claim that ray-shooting toward ∂C from any point can be done in O(yu^2/3) time.
 	 * Our first task is to shoot within each region that is dual to a node of D* using a naive algorithm which involves checking all the O(y) edges of the region (and not the edges of the face, which might be much more numerous).
 	 * Assume that the ray of light hits a point among the edges of the regions dual to the nodes of D*.
 	 * Let R be the last region of S traversed before the first hit.
@@ -383,7 +383,7 @@ void lemma36()
 	 * If R is a region dual to a node v of D*, then the starting point of the ray lies in R
 	 * (otherwise an earlier hit would have been detected) and we are trivially done.
 	 * So, assume now that R is dual to a node v not in D*.  Incidentally, note that double identification needed to find R might require a binary search among a large collection of collinear edges.
-	 * Let R' be the region incident upon the (region) edge containing the point of 6C actually hit by the ray-shooting:
+	 * Let R' be the region incident upon the (region) edge containing the point of ∂C actually hit by the ray-shooting:
 	 * this is the region that we are looking for (Fig. 3.7).  If R and R' are not the same then the two regions can be connected by a horizontal line segment that avoids all the regions dual to D*.
 	 * It follows that the node w associated with R' can be reached by a path in G from v that avoids D*.
 	 * Consequently, v and w both lie in the same Di.
@@ -480,7 +480,7 @@ void lemma42()
 	/* We proceed by induction on lambda.  Let S be the 2^[B*lambda]-granular conformal submap of V(C).
 	 * The case where lambda is a constant is trivial since the regions of S have bounded size, and therefore the missing chords can be provided in constant time per region.  So, let us switch directly to the inductive case,
 	 * assuming that lambda is large enough.  Let R be a region of S.
-	 * Because of conformality, the union of all the arcs of R can be partitioned into a constant number of single edges and vertex-to-vertex pieces of 6C with at most 2^[B*lambda] edges.
+	 * Because of conformality, the union of all the arcs of R can be partitioned into a constant number of single edges and vertex-to-vertex pieces of ∂C with at most 2^[B*lambda] edges.
 	 * Applying Lemma 4.1, we can compute a canonical submap for each connected polygonal piece in the partition in time at most proportional to */
 
 	lemma41();
@@ -496,8 +496,8 @@ void lemma42()
 	 *
 	 * There is a small subtlety in this last round of merges, which we should explain.
 	 * To take a simple, suppose that R* has two arcs and two exit chords: a1,
-	 * a1b1, a2, a2b2, in cyclic order.  It could be that the endpoints of a1 or a2 are not vertices of 6C,
-	 * so to deal with the most general case, assume that a1 consists of b2b'2, B1, a'1,a1 and a2 consists of b1b'1, B2, a'2b2, where a1',b'1,a'2,b'2 are all vertices of 6C (Fig 4.1).
+	 * a1b1, a2, a2b2, in cyclic order.  It could be that the endpoints of a1 or a2 are not vertices of ∂C,
+	 * so to deal with the most general case, assume that a1 consists of b2b'2, B1, a'1,a1 and a2 consists of b1b'1, B2, a'2b2, where a1',b'1,a'2,b'2 are all vertices of ∂C (Fig 4.1).
 	 * Let S1 (resp. S2) be the canonical submap for the vertex-to-vertex piece of P corresponding to B1 (resp. B2) and let T1 (resp. T2) be canonical submaps for the 3-edge polygonal curve a'1, a1, b1, b'1 (resp. a'2,a2,b2,b'2). */
 
 	lemma41();
@@ -546,33 +546,33 @@ void theorem43()
 
 void startup()
 {
-	/* Using local shooting, we find the point of 6C1 that a0 sees with respect to C1.
-	 * Although a0 is at worst infinitesimally close to 6C2 it does not always lie on it, as we shall see in the next paragraph.
+	/* Using local shooting, we find the point of ∂C1 that a0 sees with respect to C1.
+	 * Although a0 is at worst infinitesimally close to ∂C2 it does not always lie on it, as we shall see in the next paragraph.
 	 * However, using the information about the endpoints of C2 encoded in the normal-form representation of S2 (namely, pointers to incident arcs),
-	 * we can find, in constant time, in which regions of S2 the point a0 lies.  This allows us to do local shooting and find the point of 6C2 that a0 sees with respect to C2.
-	 * These two pieces of information combine to give us the unique point c0 of 6C that a0 sees with respect to C.  We distinguish between two cases:
+	 * we can find, in constant time, in which regions of S2 the point a0 lies.  This allows us to do local shooting and find the point of ∂C2 that a0 sees with respect to C2.
+	 * These two pieces of information combine to give us the unique point c0 of ∂C that a0 sees with respect to C.  We distinguish between two cases:
 	 *
-	 * 1. If c0 belongs to 6C2, then we set p = a0 and we call the region of S2 crossed by a0c0 current: the start-up phase is over (Figure 3.1.1).
-	 * 2. If c0 belongs to 6C1, from Lemma 2.1, the chord a0c0 splits 6C into two curves, each closed under visibility.  One of these curves, the one running from a0 to c0 clockwise,
-	 * is a piece of 6C1.  (Fig. 3.1.2), so the points of 6C that its exit chord endpoints see all belong to 6C1, and thus are available directly from S1.
-	 * We can therefore skip all the way to c0.  Now, however, c0 sees a point of 6C2, namely a0, so we set p = c0 and call the region of S2 containing a0 current.
+	 * 1. If c0 belongs to ∂C2, then we set p = a0 and we call the region of S2 crossed by a0c0 current: the start-up phase is over (Figure 3.1.1).
+	 * 2. If c0 belongs to ∂C1, from Lemma 2.1, the chord a0c0 splits ∂C into two curves, each closed under visibility.  One of these curves, the one running from a0 to c0 clockwise,
+	 * is a piece of ∂C1.  (Fig. 3.1.2), so the points of ∂C that its exit chord endpoints see all belong to ∂C1, and thus are available directly from S1.
+	 * We can therefore skip all the way to c0.  Now, however, c0 sees a point of ∂C2, namely a0, so we set p = c0 and call the region of S2 containing a0 current.
 	 *
-	 * Technically, it is not quite true that a0 is always a point of 6C2.  It coincides with one most often, but when it sits at a local extremum (in the y-direction) it is not one because of duplication.
-	 * What is true, however, is that when c0 cannot see a point of 6C2, an infinitesimal deformation of 6C2 locally around a0 can make c0 see one.
-	 * This is a minor technicality which will not affect the remainder of the fusion algorithm, so for simplicity we still go on saying that c0 sees a point of 6C2 with respect to C.
+	 * Technically, it is not quite true that a0 is always a point of ∂C2.  It coincides with one most often, but when it sits at a local extremum (in the y-direction) it is not one because of duplication.
+	 * What is true, however, is that when c0 cannot see a point of ∂C2, an infinitesimal deformation of ∂C2 locally around a0 can make c0 see one.
+	 * This is a minor technicality which will not affect the remainder of the fusion algorithm, so for simplicity we still go on saying that c0 sees a point of ∂C2 with respect to C.
 	 * Another minor problem is that a0c0 might lie on an exit chord of S2 and thus there might be more than one candidate for the status of current region.
-	 * We break ties by electing the region that we locally enter as we leave p in a clockwise traversal of 6C1.  This concludes the start-up-phase.
+	 * We break ties by electing the region that we locally enter as we leave p in a clockwise traversal of ∂C1.  This concludes the start-up-phase.
 	 * At this point we have the following situation (all visibility being understood with respect to C):
 	 *
-	 * A. The points of 6C that are seen by the exit chord endpoints of S1 on the portion of 6C1 running clockwise from a0 to the point p in its current position have all been determined already.
-	 * B. The point q of 6C that is seen by p belongs to 6C2 and the chord pq lies in the region of S2 called current.  If p lies on a chord between two regions of S2,
-	 * then the current region should be the one that we enter as we locally leave p clockwise around 6C1.
+	 * A. The points of ∂C that are seen by the exit chord endpoints of S1 on the portion of ∂C1 running clockwise from a0 to the point p in its current position have all been determined already.
+	 * B. The point q of ∂C that is seen by p belongs to ∂C2 and the chord pq lies in the region of S2 called current.  If p lies on a chord between two regions of S2,
+	 * then the current region should be the one that we enter as we locally leave p clockwise around ∂C1.
 	 * These two conditions form our loop invariant, that is, they hold prior to veery iteration of the process which we now describe. */
 }
 
 void main_loop()
 {
-	/* Let Ai denote the oriented arc of S1 running from ai-1 to ai (in clockwise order around 6C1): by extension A1 (resp. Am+1) stands for the subarc extending from a0 to a1 (resp. am to am+1).
+	/* Let Ai denote the oriented arc of S1 running from ai-1 to ai (in clockwise order around ∂C1): by extension A1 (resp. Am+1) stands for the subarc extending from a0 to a1 (resp. am to am+1).
 	 * Let Ak be the arc containing p.  In the likely event that p is an endpoint of a chord of S1 and thus belongs to two arcs, we must choose the one starting (and not ending) at p, i.e., we set the condition
 	 * p != ak.  When p is set to am+1, however, the algorithm simply terminates and no Ak need be defined.  Let R denote the current region prior to enterting the following loop:
 	 * iterate through j = k, k+1,... until one of these three cases occurs: */
@@ -582,16 +582,16 @@ void main_loop()
 	uint j = k;
 	for( ;; ){
 		 /* case:
-		 * (i) aj lies in R and the point of 6C that aj sees belongs to 6C2 (Figure 3.2.1), or
-		 * (ii) the previous conditiion (i) does not hold, but R has at least one exit chord such that the point of 6C seen by one of its endpoints belongs to Aj, but strictly follows p (Fig. 3.2.2), or
+		 * (i) aj lies in R and the point of ∂C that aj sees belongs to ∂C2 (Figure 3.2.1), or
+		 * (ii) the previous conditiion (i) does not hold, but R has at least one exit chord such that the point of ∂C seen by one of its endpoints belongs to Aj, but strictly follows p (Fig. 3.2.2), or
 		 * (iii) j = m+2 */
 
-		 /* If case (i) occurs, find which point of 6C is seen by aj, declare that all aj's (k<=i<j) see points of 6C1 (with respect to C), set p = aj, let the current region still be R,
+		 /* If case (i) occurs, find which point of ∂C is seen by aj, declare that all aj's (k<=i<j) see points of ∂C1 (with respect to C), set p = aj, let the current region still be R,
 		 * and iterate through the loop, resetting k so as to comply with its definition.  If case (ii) occurs, then all of the candidate endpoints, i.e, those chord endpoints satisfying (ii),
-		 * determine the one which sees the point p' that is the last one encountered as we traverse 6C1 clockwise starting from p.  In Fig. 3.2.2, for example, p' is the point labeled p3 and the chose endpoint is labled q3.
-		 * Next, declare that all aj's (k <= i < j) see points 6C1, set p = p', make current the region of S2 which we enter as we locally cross the exit chord at p' along 6C1,
+		 * determine the one which sees the point p' that is the last one encountered as we traverse ∂C1 clockwise starting from p.  In Fig. 3.2.2, for example, p' is the point labeled p3 and the chose endpoint is labled q3.
+		 * Next, declare that all aj's (k <= i < j) see points ∂C1, set p = p', make current the region of S2 which we enter as we locally cross the exit chord at p' along ∂C1,
 		 * and iterate after updating k and R according to their defintiions.
-		 * In case (iii) we stop and, unless k = m+2, we declare that all ai's (k <= i < m+1) see points of 6C1.*/
+		 * In case (iii) we stop and, unless k = m+2, we declare that all ai's (k <= i < m+1) see points of ∂C1.*/
 	}
 
 	 /* We have made several claims and skipped over important implementation issues in order to get the main idea of the algorithm across.  Next, we fill in the missing parts and substantiate our claims. */
@@ -600,15 +600,15 @@ void main_loop()
 void restore_conformality()
 {
 	/* As we said earlier, there is no reason to believe that the fusion of S should be confromal.  Things can never be too bad, however.  Indeed, let A1, A2,... be the arcs of a region R of S in counterclockwise order.
-	 * It is clear that each Ai belongs to 6C1 or 6C2 but not both.
+	 * It is clear that each Ai belongs to ∂C1 or ∂C2 but not both.
 	 *
-	 * So, we partition the sequence of arcs into runs, B1, B2,...,meaning that Bj = Ai,Ai+1,...,Aij+1-1 is a maximal subsequence of arcs from either 6C1 or 6C2 (but not both).
+	 * So, we partition the sequence of arcs into runs, B1, B2,...,meaning that Bj = Ai,Ai+1,...,Aij+1-1 is a maximal subsequence of arcs from either ∂C1 or ∂C2 (but not both).
 	 * In the defintion of maximal, we regard A1, A2, ... as a circular sequence.
-	 * Because any exit chord endpoint of Si is still an endpoint of a chord in S and, with the possible exception of the chords incident upon a0 or am+1, every chord of S that connects two points of 6Ci is also a chord of Si,
-	 * it follows by conformality that a run associated with 6Ci cannot have more than four exit chords in its midst,
+	 * Because any exit chord endpoint of Si is still an endpoint of a chord in S and, with the possible exception of the chords incident upon a0 or am+1, every chord of S that connects two points of ∂Ci is also a chord of Si,
+	 * it follows by conformality that a run associated with ∂Ci cannot have more than four exit chords in its midst,
 	 * not counting the new chords incident upon a0 or am+1.  Therefore, a run cannot have more than a constant number of arcs.  On the other hand, it follows from Lemma 2.2 that there are at most two runs.
-	 * Why is that so?  The lemma says that if we walk along 6C clockwise we will in effect traverse, among other things, the boundary of R counterclockwise (except for the exit chords).
-	 * If we begin our walk at one of the two points of 6C corresponding to the vertex C1 n C2, we first exhaust, say 6C1 and the 6C2.
+	 * Why is that so?  The lemma says that if we walk along ∂C clockwise we will in effect traverse, among other things, the boundary of R counterclockwise (except for the exit chords).
+	 * If we begin our walk at one of the two points of ∂C corresponding to the vertex C1 n C2, we first exhaust, say ∂C1 and the ∂C2.
 	 * Therefore, the counterclockwise traversal of the boundary of R must exhaust first the runs Bi contributed by S1 and then the runs contributed by S2.
 	 * Obviously, this leaves only the possibilty of having at most one run of each type, and hence at total of at most two runs.
 	 * The conclusion to draw is that, although not necessarily confromal, the submap S has no region with more than a bounded number of arcs.  If S is not confromal we must now reduce the number of arcs per region
@@ -629,7 +629,7 @@ void merge_submaps()
 	 * conformal submaps of the appropriate granularity have already been computed.  This is to be used for restoring the conformality of merged submaps.
 	 * The merge proceeds in three stages.
 	 *
-	 * First we find which points of 6C can be seen by the endpoints of the exit chords of Si (i=1,2) and by the companion vertices resulting from the duplication of C1 n C2;
+	 * First we find which points of ∂C can be seen by the endpoints of the exit chords of Si (i=1,2) and by the companion vertices resulting from the duplication of C1 n C2;
 	 * this gives us chords which we use to create a submap of S of V(C), called the fusion of S1 and S2 (Sectieon 3.1).
 	 *
 	 * In the second stage we ensure that the submap is conformal, which might involve adding new chords to cut up regions with more than four arcs.
@@ -638,7 +638,7 @@ void merge_submaps()
 	 * 
 	 *
 	 * In the third stage, finally, we bring the submap S to the desired granularity by removing chords if necessary (Section 3.3).  The implementation of the oracles is dicussed in Section 3.4.
-	 * We need to be able to distinguish between an arc of 6C and the piece of C from which it originates.  For this purpose we introduce the notation abar to refer to the portion of C to which an arc a of 6C corresponds.
+	 * We need to be able to distinguish between an arc of ∂C and the piece of C from which it originates.  For this purpose we introduce the notation abar to refer to the portion of C to which an arc a of ∂C corresponds.
 	 * Recall that an arc may double-back around an endpoint of C, so abar may not always be as "long" as a.  We assume that each Si is given in normal form and that the following set of primitives is avilable.
 	 * For each region arc a of Si (i = 1, 2) specified by a pointer to its arc-structure:
 	 * (i) There exists a ray-shooter which, given any point p along with a horizontal direction (left or right) and any subarc a' of a specified by its two endpoints
@@ -649,7 +649,7 @@ void merge_submaps()
 	 * (ii) There exists an arc-cutter which, in O(g(yi)) time, subdivides the subarc a' into at most g(yi) subarcs a1, a2, ..., such that
 	 * 	(1) each aj is specified by its two endpoints and a pair of pointers into the input table to indicate which edges of P contain these endpoints;
 	 * 		the pair should be ordered to reflect a clockwise traversal along 6P and two flags should be included to indicate on which sides of 6P these endpoints fall;
-	 * 	(2) the relative interior of no aj sohuld contain a point of 6Ci that corresponds to an endpoint of Ci, that is, each subarc must lie entirely on one side of 6C (no double-backing); and
+	 * 	(2) the relative interior of no aj sohuld contain a point of ∂Ci that corresponds to an endpoint of Ci, that is, each subarc must lie entirely on one side of ∂C (no double-backing); and
 	 * 	(3) except for a1bar and a2bar (in the case where these are single-edge pieces attached to the points of C corresponding to the endpoints of a'), all the ajbas are vertex-to-vertex subchains of Ci
 	 * (i.e., they do not stop in the middle of an edge) and, for each of them, an h(yi)-granular conformal submap of V(ajbar) is available in normal form.  Again, g and h are assumed to be nondecreasing functions.
 	 *
