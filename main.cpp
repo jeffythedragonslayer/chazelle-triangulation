@@ -399,14 +399,14 @@ void lemma36()
 	 * after O(ulogm) preprocessing.  Since u=O(m/y+1), we have */
 }
 
-/* Suppose that all grades less than lambda have been processed.  Then, given any portion D of P of the form va,...,vb, where 2^l-1 < b - a <= 2^l, we can compute
+/* Suppose that all grades less than λ have been processed.  Then, given any portion D of P of the form va,...,vb, where 2^l-1 < b - a <= 2^l, we can compute
  * a canonical submap of V(D) in time proportional to l^2(log l)2^(1-B/3+4B^2/3). */
 void lemma41()
 {
-	/* In O(lambda) time we can partition D into j <= 2*lambda chains, D1,...Dj, in grades less than lambda, with at most two chains per grade. 
+	/* In O(λ) time we can partition D into j <= 2*λ chains, D1,...Dj, in grades less than λ, with at most two chains per grade. 
 	 * This implies that, for each i = 1, ..., j a canonical submap S of V(Di) is available.  Let y be the granularity of a canonical submap of V(D); we have y = 2^(Bl)
 	 * Since the granularity of canonical submap grows monotonically with the size of the underlying polygonal curve, we can trivially reset the granularity of each Si to y (Section 3.3).
-	 * The time to do that is proportional to the total number of chords in all the Si's which, from Lemma 2.3, is on the order of E0<=k<=lambda^2^[Bk], that is, O(2^lambda(1-B)).
+	 * The time to do that is proportional to the total number of chords in all the Si's which, from Lemma 2.3, is on the order of E0<=k<=λ^2^[Bk], that is, O(2^λ(1-B)).
 	 *
 	 * Let us now merge these submaps two-by-two (D1 with D2, D3 with D4, etc.).  More generally, we consider a perfectly balanced binary tree whose leaves are in the bijection with Di's and we merge submaps bottom-up
 	 * by following the tree pattern.  */
@@ -415,34 +415,34 @@ void lemma41()
 	/* Application of Lemma 3.5 results in a canonical submap of V(D) provided, of course, that the required oracles are available.  But are they?
 	 * Notice that during any merge any arc a in either of the two input submaps consists of at most y edges.  Therefore, any subarc a' <= a can be subdivided into a constant number of contiguous pieces
 	 * (with no double-backing) whose corresponding portions of P consist of a single line segments (at most two of them) and vertex-to-vertex pieces of P, each with at most 2^[Bk] edges.
-	 * Each of these pieces can be partitioned into a collection of O(lambda) chains in grades at most [Blambda].  Our work at previous grades ensures that we have ray-shooting structures for the canonical submaps
-	 * associated with these chains.  Thus, to shoot a ray toward a', we shoot toward each of the O(lambda) subarcs of its decomposition and determine the closest hit (if any.)
-	 * Shooting towards a single edge subarc is trivial.  Shooting toward any other subarc makes use of the shooting structure of a canonical submap for a chain in grade u < [Blambda].
-	 * Assuming that [Blambda] < lambda (which is true for lambda large enough) all these shooting structures have been computed and therefore, by Lemma 3.6, ray-shooting can be done in time O(2^[Bu]/3+2u/3),
-	 * which is O(2^B^2*lamda/3+2Blambda/3).  Since there are O(lambda) subarcs, it follows that the ray-shooting oracle can be implemented so that
+	 * Each of these pieces can be partitioned into a collection of O(λ) chains in grades at most [Bλ].  Our work at previous grades ensures that we have ray-shooting structures for the canonical submaps
+	 * associated with these chains.  Thus, to shoot a ray toward a', we shoot toward each of the O(λ) subarcs of its decomposition and determine the closest hit (if any.)
+	 * Shooting towards a single edge subarc is trivial.  Shooting toward any other subarc makes use of the shooting structure of a canonical submap for a chain in grade u < [Bλ].
+	 * Assuming that [Bλ] < λ (which is true for λ large enough) all these shooting structures have been computed and therefore, by Lemma 3.6, ray-shooting can be done in time O(2^[Bu]/3+2u/3),
+	 * which is O(2^B^2*lamda/3+2Bλ/3).  Since there are O(λ) subarcs, it follows that the ray-shooting oracle can be implemented so that
 	 *
-	 * f(y) = lambda*2^[B^2*lambda/3+2*B*lambda/3].
+	 * f(y) = λ*2^[B^2*λ/3+2*B*λ/3].
 	 *
-	 * As we mentioned, the subarc a' is decomposed into at most two single-edge pieces, along with O(lambda) pieces for which we have conformal submaps of granularity at most 2^[B[Blambda]].
+	 * As we mentioned, the subarc a' is decomposed into at most two single-edge pieces, along with O(λ) pieces for which we have conformal submaps of granularity at most 2^[B[Bλ]].
 	 * We verify that all the requirements of the arc-cutting oracle are satisfied by this decomposition, so that we can set
 	 *
-	 * g(y) = O(lambda)
+	 * g(y) = O(λ)
 	 *
 	 * and
 	 *
-	 * h(y) <= 2^[B[B*lambda]]
+	 * h(y) <= 2^[B[B*λ]]
 	 *
-	 * To appreciate the connection between the left- and right-hand sides of these relations, recall that y and lambda are related by the identity y=2^[B*lambda].  By lemma 3.5,
+	 * To appreciate the connection between the left- and right-hand sides of these relations, recall that y and λ are related by the identity y=2^[B*λ].  By lemma 3.5,
 	 * if a merge takes input curves with a total of m vertices, then the time to carry it out is at most proportional to
 	 *
-	 * lambda^2*(m/2^(B*lambda))*2^(B^2*lambda/3+2*B*lambda/3)(2^((B^2)lambda) + log m)
+	 * λ^2*(m/2^(B*λ))*2^(B^2*λ/3+2*B*λ/3)(2^((B^2)λ) + log m)
 	 *
-	 * There are O(log lambda) levels of merging to be performed, each involving a total of b - a <= 2^lambda edges, therefore the time to merge the submaps for all the Di's into one is at most
+	 * There are O(log λ) levels of merging to be performed, each involving a total of b - a <= 2^λ edges, therefore the time to merge the submaps for all the Di's into one is at most
 	 * (up to within a constant factor)
 	 *
-	 * lambda^2*(log lambda)*2^(lambda-B*lambda/3 + 4*B^2*lambda/3)
+	 * λ^2*(log λ)*2^(λ-B*λ/3 + 4*B^2*λ/3)
 	 *
-	 * Since the initial cost of restting the granularity is only O(2^(lambda(1-B)), the lemma follows readily. */
+	 * Since the initial cost of restting the granularity is only O(2^(λ(1-B)), the lemma follows readily. */
 }
 
 // log n stages
@@ -450,26 +450,26 @@ void uphase41()
 {
 	/* We begin with a piece of terminology, given a curve C consisting of m contigous edges of P, we say that a submap of V(C) is cannoncial if it is 2^[B[logm]]-granular,
 	 * conformal, and represented in normal form.
-	 * Note that a canonical submap for a chain in grade lambda is 2^[Bk]-granular.  For lamba=0,1,..,p, in that order, we process grade lambda, which means: */
+	 * Note that a canonical submap for a chain in grade λ is 2^[Bk]-granular.  For lamba=0,1,..,p, in that order, we process grade λ, which means: */
 
 	uint p = 0;
 	uint B = 0;
 
 	for( uint lambda = 0; lambda <= p; ++lambda){
 		 /* (i) We compute a canonical submap of V(C) for each chain C in that grade.
-		 * (ii) We proprocess each canonical submap for ray-shooting along the lines of Lemma 3.6, setting y to the value 2^[B*lambda].*/
+		 * (ii) We proprocess each canonical submap for ray-shooting along the lines of Lemma 3.6, setting y to the value 2^[B*λ].*/
 		uint y = pow(2.0, 1.0*ceil(B*lambda));
 	}
  /*
  *
- * This work can be done naively for the early grades, so let us pick up the action at a grade lambda larger than some appropriate constant, assuming that all grades less than lambda have been processed already.
+ * This work can be done naively for the early grades, so let us pick up the action at a grade λ larger than some appropriate constant, assuming that all grades less than λ have been processed already.
  *
- * Let us now turn to the processing of grade lambda.  Lemma 4.1 can be called upon to compute a canonical submap of the visibility map of each chain in grade lambda.
- * Preprocessing each chain for ray-shootidng is done by using Lemma 3.6.  Since there are (n-1)/2^lambda chains in grade lambda, we conclude that processing grade lambda requires time at most proportional to
+ * Let us now turn to the processing of grade λ.  Lemma 4.1 can be called upon to compute a canonical submap of the visibility map of each chain in grade λ.
+ * Preprocessing each chain for ray-shootidng is done by using Lemma 3.6.  Since there are (n-1)/2^λ chains in grade λ, we conclude that processing grade λ requires time at most proportional to
  *
- * n*lambda^2(log lambda)*2^(B*lambda(4B/3-1/3))+ n*lambda*2^(-B*lambda)
+ * n*λ^2(log λ)*2^(B*λ(4B/3-1/3))+ n*λ*2^(-B*λ)
  *
- *  From our choice of B - 1/5, it follows that preprocessing grade lambda takes O(n2^[-lmabda/76) time, therefore processing all p+1 grades, and thereby completeing the up-phase, takes linear time. */
+ *  From our choice of B - 1/5, it follows that preprocessing grade λ takes O(n2^[-lmabda/76) time, therefore processing all p+1 grades, and thereby completeing the up-phase, takes linear time. */
 
 }
 
@@ -477,18 +477,18 @@ void uphase41()
  * then it is possible to compute V(C) in time at most (c-1/l)2^l, where c is some constant large enough. */
 void lemma42()
 {
-	/* We proceed by induction on lambda.  Let S be the 2^[B*lambda]-granular conformal submap of V(C).
-	 * The case where lambda is a constant is trivial since the regions of S have bounded size, and therefore the missing chords can be provided in constant time per region.  So, let us switch directly to the inductive case,
-	 * assuming that lambda is large enough.  Let R be a region of S.
-	 * Because of conformality, the union of all the arcs of R can be partitioned into a constant number of single edges and vertex-to-vertex pieces of ∂C with at most 2^[B*lambda] edges.
+	/* We proceed by induction on λ.  Let S be the 2^[B*λ]-granular conformal submap of V(C).
+	 * The case where λ is a constant is trivial since the regions of S have bounded size, and therefore the missing chords can be provided in constant time per region.  So, let us switch directly to the inductive case,
+	 * assuming that λ is large enough.  Let R be a region of S.
+	 * Because of conformality, the union of all the arcs of R can be partitioned into a constant number of single edges and vertex-to-vertex pieces of ∂C with at most 2^[B*λ] edges.
 	 * Applying Lemma 4.1, we can compute a canonical submap for each connected polygonal piece in the partition in time at most proportional to */
 
 	lemma41();
 	 /*
-	 * lambda^2(log lambda)2^(B*lambda(1-B/3+4*B^2/3{
+	 * λ^2(log λ)2^(B*λ(1-B/3+4*B^2/3{
 	 *
-	 * Each of these submaps has granularity at most 2^[B[Blambda]], so we can pursue the merging by putting
-	 * together all these submaps and thus create a single normal form 2^[B[B*lambda]]-granular conformal submap of V(R*),
+	 * Each of these submaps has granularity at most 2^[B[Bλ]], so we can pursue the merging by putting
+	 * together all these submaps and thus create a single normal form 2^[B[B*λ]]-granular conformal submap of V(R*),
 	 * where R* is the boundary of R minus a veretx (to ensure that it is nonclosed).
 	 * For consistency, we should regard R* as a standrad polygonal curve and not as part of a double boundary.
 	 * The operation requires a constant number of merges, so we can carry it out effectively by merging submaps
@@ -513,25 +513,25 @@ void lemma42()
 	 * procedure of Section 3.2 to each region that might have more than four chords with this new interpretation.
 	 * Again, it is immediate to see that all the required oracles are still available.
 	 * The time taken by this last round of merges is dominated by the cost of the earlier merges,
-	 * so computing the 2^[B[Blambda]]-granular conformal submap of all the V(R*)'s takes time at most proportional to
+	 * so computing the 2^[B[Bλ]]-granular conformal submap of all the V(R*)'s takes time at most proportional to
 	 *
-	 * 2^i*lambda^2(log lambda)*2^B^2lambda(4B/3-1/3)
+	 * 2^i*λ^2(log λ)*2^B^2λ(4B/3-1/3)
 	 *
 	 * We can now extract the relevant information, i.e., the exit chords falling entirely within each region R.
 	 * This involves checking the exit chords of the computed submap of V(R*) and keeeping only those both of whose endpoints lie on the arcs (in the double boundary sense) of the region R.
-	 * This leads to a new map S* of V(C) which is a refinement of S: all its arcs originate from the previous merges, therefore S* is a 2^[B[Blambda]]-semigranular conformal submap of V(C).
+	 * This leads to a new map S* of V(C) which is a refinement of S: all its arcs originate from the previous merges, therefore S* is a 2^[B[Bλ]]-semigranular conformal submap of V(C).
 	 * We can only speak of semigranularity because some of the chords connecting the R*'s might be removable now.  We can check each of the exit chords directly, which as we saw in Section 3.3,
 	 * takes a total amount of time linear in the number of exit chords in S*.
-	 * Now that we have a 2^[B[B*lambda]]-granular conformal submap of V(C) at our disposal we observe that [Blambda] <= lambda - 1 for lambda large enough, so that we can apply the induction hypothesis and derive V(C) in
+	 * Now that we have a 2^[B[B*λ]]-granular conformal submap of V(C) at our disposal we observe that [Bλ] <= λ - 1 for λ large enough, so that we can apply the induction hypothesis and derive V(C) in
 	 * time at most (c-1/(lamdda-1))2^l.  Putting everything together, the total running time for the construction of V(C) is at most
 	 *
-	 * a2^l*lamda^2(log lambda)*2^(B^2*lambda*(4B/3-1/3) + (c-1/(lambda-1))*2^l
+	 * a2^l*lamda^2(log λ)*2^(B^2*λ*(4B/3-1/3) + (c-1/(λ-1))*2^l
 	 *
 	 * for some constant a > 0.  With the setting B = 1/5, this is no more than
 	 *
-	 * a*2^l*lambda^2(log lambda)*2^[-lambda/375] + (c-1/(lambda-1)*2^l <= (c-1/lambda)*2^l
+	 * a*2^l*λ^2(log λ)*2^[-λ/375] + (c-1/(λ-1)*2^l <= (c-1/λ)*2^l
 	 *
-	 * for lambda large enough.
+	 * for λ large enough.
 	 *
 	 * During the up-phase we built a normal-form 2^[Bp]-granular conformal submap of V(P) in linear.
 	 *
@@ -667,10 +667,10 @@ void visibility_algorithm()
 {
 	/* Let P be a simple nonclosed polygonal curve with n vertices v1, ..., vn.
 	 * By padding the curve with additional vertices, if necessary, we can assume that n = 2^p + 1.
-	 * Any subcurve of P of the form va, ..., vb, where a-1 is a multiple of 2^lambda and b-a=2^lambda is called a chain in grade lambda.  Obviously,
+	 * Any subcurve of P of the form va, ..., vb, where a-1 is a multiple of 2^λ and b-a=2^λ is called a chain in grade λ.  Obviously,
 	 *
-	 * (i) a grade-lambda chain has 2^lambda+1 vertices,
-	 * (ii) there are 2^(p-lambda) chains in grade lambda, and
+	 * (i) a grade-λ chain has 2^λ+1 vertices,
+	 * (ii) there are 2^(p-λ) chains in grade λ, and
 	 * (iii) there are p+1 grades: 0,1, ..., p.
 	 *
 	 * We begin our work bottom-up, computing conformal submaps of granularity of roughly m^B,
