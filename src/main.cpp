@@ -722,5 +722,5 @@ vector<Point> load_polygon(string fname)
 
 int main(int argc, char* argv[])
 {
-	auto p = load_polygon("poly/square");
+	auto p = load_polygon("polys/square");
 }
