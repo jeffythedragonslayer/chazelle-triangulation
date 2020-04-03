@@ -1,5 +1,5 @@
 # chazelle-triangulation
-Algorithm to Triangulate Polygon in Linear Time
+Implementation of Bernard Chazelle's algorithm to Triangulate Polygon in Linear Time
 
 Input polygon files are lists of ordered pairs, for example a square:
 
@@ -10,3 +10,9 @@ Input polygon files are lists of ordered pairs, for example a square:
 5, 5
 
 5, -5
+
+__Installation__
+
+To use visulizations,
+
+>  pip install pygame --user  
