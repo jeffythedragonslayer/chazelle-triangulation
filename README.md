@@ -11,7 +11,8 @@ Input polygon files are lists of ordered pairs, for example a square:
 
 5, -5
 
-Installation
+__Installation__
+
 To use visulizations,
 
-  pip install pygame --user  
+>  pip install pygame --user  
