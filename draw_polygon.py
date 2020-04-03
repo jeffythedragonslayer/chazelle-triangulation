@@ -9,7 +9,6 @@ import pygame
 import sys
 pygame.init()
 
-
 if len(sys.argv) <= 1:
     print("Usage: draw_polygon.py filename [window_width window_height]")
     exit(0)
@@ -24,33 +23,44 @@ else:
 screen = pygame.display.set_mode([window_width, window_height])
 
 fileh = open(sys.argv[1], 'r')
-lines = fileh.readlines()
+file_lines = fileh.readlines()
 
 points = []
 count = 0
 has_diag = False
 diagonals = []
 
-for line in lines:
-    coords = line.split()
+xmin = xmax = ymin = ymax = 0
+
+for file_line in file_lines:
+    coords = file_line.split()
     if "diagonals" in coords:
         has_diag = True
         break
     x = int(coords[0][0:-1])
     y = int(coords[1])
+    xmin = min(xmin, x)
+    xmax = max(xmax, x)
+    ymin = min(ymin, y)
+    ymax = max(ymax, y)
     points.append((x, y))
     count = count + 1
 
+xspan = xmax - xmin
+yspan = ymax - ymin
+
 if has_diag:
     diagonals = []
-    for line in lines[count+1:]:
+    for line in file_lines[count+1:]:
         indices = line.split()
         a = int(indices[0][0:-1])
         b = int(indices[1])
         diagonals.append((a, b))
 
-xscale = yscale = 10
-xoffset = yoffset = 10
+xmargin = ymargin = 50
+
+xscale = (window_width - 2*xmargin ) / xspan
+yscale = (window_height - 2*ymargin) / yspan
 
 running = True
 while running:
@@ -65,19 +75,19 @@ while running:
     lastpoint = points[-1]
     for point in points:
 
-        x1 = point[0]*xscale+xoffset
-        y1 = point[1]*yscale+yoffset
-        x2 = lastpoint[0]*xscale+xoffset
-        y2 = lastpoint[1]*yscale+yoffset
+        x1 = point[0]*xscale+xmargin
+        y1 = point[1]*yscale+ymargin
+        x2 = lastpoint[0]*xscale+xmargin
+        y2 = lastpoint[1]*yscale+ymargin
 
         pygame.draw.line(screen, edge_color, (x1, y1), (x2, y2), 5)
         lastpoint = point
 
     for diagonal in diagonals:
-        x1 = points[diagonal[0]][0]*xscale+xoffset
-        y1 = points[diagonal[0]][1]*xscale+xoffset
-        x2 = points[diagonal[1]][0]*xscale+xoffset
-        y2 = points[diagonal[1]][1]*xscale+xoffset
+        x1 = points[diagonal[0]][0]*xscale+xmargin
+        y1 = points[diagonal[0]][1]*yscale+ymargin
+        x2 = points[diagonal[1]][0]*xscale+xmargin
+        y2 = points[diagonal[1]][1]*yscale+ymargin
         pygame.draw.line(screen, diag_color, (x1, y1), (x2, y2), 5)
 
     pygame.display.flip()
