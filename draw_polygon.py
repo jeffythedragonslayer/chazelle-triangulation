@@ -2,24 +2,33 @@
 # Simple pygame program
 
 import pygame
+import sys
 pygame.init()
 
-screen = pygame.display.set_mode([1000, 1000])
 
-fileh = open('polys/square', 'r')
+if len(sys.argv) <= 1:
+    print("Usage: draw_polygon.py filename [window_width window_height]")
+    exit(0)
+
+if len(sys.argv) == 4:
+    window_width = int(sys.argv[2])
+    window_height = int(sys.argv[3])
+else:
+    window_width = 640
+    window_height = 480
+
+screen = pygame.display.set_mode([window_width, window_height])
+
+fileh = open(sys.argv[1], 'r')
 lines = fileh.readlines()
 
-count = 0
 points = []
 
 for line in lines:
     coords = line.split()
     x = int(coords[0][0:-1])
     y = int(coords[1])
-    print(' line:' + str(x) + '; ' + str(y))
     points.append((x, y))
-
-print('points: ' + str(points))
 
 xscale = yscale = 10
 xoffset = yoffset = 10
