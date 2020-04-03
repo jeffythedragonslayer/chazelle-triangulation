@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 # Simple pygame program
 
+edge_color = (0, 255, 0)
+diag_color = (255, 0, 0)
+bg_color = (0, 0, 255)
+
 import pygame
 import sys
 pygame.init()
@@ -55,7 +59,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill((0, 0, 255))
+    screen.fill(bg_color)
 
     #pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
     lastpoint = points[-1]
@@ -66,7 +70,7 @@ while running:
         x2 = lastpoint[0]*xscale+xoffset
         y2 = lastpoint[1]*yscale+yoffset
 
-        pygame.draw.line(screen, (0, 255, 0), (x1, y1), (x2, y2), 5)
+        pygame.draw.line(screen, edge_color, (x1, y1), (x2, y2), 5)
         lastpoint = point
 
     for diagonal in diagonals:
@@ -74,7 +78,7 @@ while running:
         y1 = points[diagonal[0]][1]*xscale+xoffset
         x2 = points[diagonal[1]][0]*xscale+xoffset
         y2 = points[diagonal[1]][1]*xscale+xoffset
-        pygame.draw.line(screen, (255, 0, 0), (x1, y1), (x2, y2), 5)
+        pygame.draw.line(screen, diag_color, (x1, y1), (x2, y2), 5)
 
     pygame.display.flip()
 
