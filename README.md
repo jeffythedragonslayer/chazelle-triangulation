@@ -4,8 +4,11 @@ Implementation of Bernard Chazelle's algorithm to Triangulate Polygon in Linear 
 Input polygon files are lists of ordered pairs, for example a square:
 
 > -5, -5
+
 > -5, 5
+
 > 5, 5
+
 > 5, -5
 
 Output files have the keyword "diagonals" followed by an ordered list of indices after them:
